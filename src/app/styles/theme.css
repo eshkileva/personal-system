@@ -1,0 +1,31 @@
+@theme {
+  --color-void: #02060b;
+  --color-project: #04101b;
+  --color-signal: #168cff;
+  --color-electric: #62bcff;
+  --color-ice: #e9f6ff;
+  --color-line: rgb(76 179 255 / 0.22);
+  --color-line-strong: rgb(76 179 255 / 0.52);
+  --color-code: #7f9fb4;
+  --color-status: #84a5ba;
+  --color-copy: #9ab1c1;
+  --color-copy-soft: #9db4c4;
+  --color-label: #7597ad;
+  --color-field-meta: #82a5bb;
+  --color-terminal: #81a4bb;
+  --color-footer: #7698ae;
+  --color-highlight: #72c0ff;
+  --color-meta: #7fa2b8;
+  --color-note: #8ba8ba;
+  --color-project-meta: #80a2b8;
+  --color-tags: #7e9fb4;
+  --color-now-copy: #9db4c4;
+  --color-contact-copy: #9ab2c2;
+  --color-coordinate: #7b9db2;
+
+  --font-display: 'Russo One', sans-serif;
+  --font-sans: 'Exo 2', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --animate-blink: blink 1.7s infinite;
+}

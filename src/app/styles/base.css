@@ -1,0 +1,126 @@
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-void);
+  }
+
+  body {
+    min-width: 320px;
+    margin: 0;
+    overflow-x: clip;
+    background:
+      radial-gradient(circle at 78% 8%, rgb(15 105 210 / 0.17), transparent 30rem),
+      radial-gradient(circle at 8% 52%, rgb(0 74 160 / 0.1), transparent 28rem),
+      var(--color-void);
+    color: var(--color-ice);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0.2;
+    background-image:
+      linear-gradient(rgb(48 151 255 / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(48 151 255 / 0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+  }
+
+  a {
+    color: inherit;
+  }
+}
+
+@media (max-width: 47.999rem) {
+  body::before {
+    opacity: 0.08;
+    background-size: 48px 48px;
+  }
+}
+
+@media (max-width: 39.999rem) {
+  .identity-title {
+    font-size: clamp(1.75rem, 8vw, 3rem);
+    line-height: 0.86;
+  }
+
+  .fields-title {
+    font-size: clamp(2rem, 10vw, 4rem);
+    line-height: 0.88;
+  }
+
+  .project-hero {
+    min-height: 0;
+  }
+
+  .project-title {
+    font-size: clamp(2rem, 10.5cqw, 8.5rem);
+    overflow-wrap: anywhere;
+  }
+
+  .project-chapter-nav {
+    position: static;
+  }
+
+  [data-system-diagram] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-chapter {
+    padding: clamp(4rem, 12vw, 7rem) 7vw;
+  }
+
+  .project-technical-id {
+    overflow-wrap: anywhere;
+  }
+}
+
+.font-display {
+  font-weight: 400;
+  font-synthesis: none;
+}
+
+.work-title {
+  max-width: 100%;
+  font-size: clamp(2.25rem, 9.5vw, 8.75rem);
+  line-height: 0.84;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+[data-system-diagram] h3 {
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .cursor-orb {
+    display: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .text-outline,
+  .text-outline-strong {
+    color: CanvasText;
+    -webkit-text-stroke: 0;
+  }
+}

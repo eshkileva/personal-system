@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YULIA — PERSONAL SYSTEM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#02060b;--panel:#06121d;--panel2:#081925;--blue:#168cff;--electric:#62bcff;--ice:#e9f6ff;--muted:#7895aa;--faint:#3e6178;--line:rgba(76,179,255,.22);--line2:rgba(76,179,255,.52)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--black)}
+body{margin:0;overflow-x:hidden;background:radial-gradient(circle at 78% 8%,rgba(15,105,210,.17),transparent 30rem),radial-gradient(circle at 8% 52%,rgba(0,74,160,.1),transparent 28rem),var(--black);color:var(--ice);font-family:"Space Grotesk",sans-serif;-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;opacity:.2;background-image:linear-gradient(rgba(48,151,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(48,151,255,.045) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}
+.noise{position:fixed;inset:0;z-index:31;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+section{position:relative;min-height:100vh;padding:9vw 6vw;border-bottom:1px solid var(--line)}
+.hero{padding:6vh 5vw;overflow:hidden}
+.topbar,.code,.status,.tags,.coords,.orb-label{font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.13em}
+.topbar{position:relative;z-index:5;display:flex;justify-content:space-between;font-size:10px}
+.electric{color:var(--electric)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:3vw;min-height:88vh}
+h1,h2,h3{margin:0;font-family:"Syne",sans-serif;font-weight:800;text-transform:uppercase}
+h1{position:relative;z-index:3;font-size:clamp(80px,12.5vw,210px);line-height:.76;letter-spacing:-.085em}
+h1 span{display:block}
+.outline{color:transparent;-webkit-text-stroke:1px rgba(91,181,255,.72)}
+h1 .outline{margin-left:6vw}
+.hero-copy{position:relative;z-index:4;max-width:650px;margin:7vh 0 0 8vw;font-size:clamp(24px,2.4vw,39px);line-height:1.08;letter-spacing:-.04em}
+.hero-copy em{color:var(--electric);font-style:normal;text-shadow:0 0 35px rgba(22,140,255,.35)}
+.hero-status{display:flex;flex-wrap:wrap;gap:28px;margin:7vh 0 0 8vw;font-size:9px;color:#5d8299}
+.dot{display:inline-block;width:6px;height:6px;margin-right:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 18px var(--blue);animation:blink 1.7s infinite}
+@keyframes blink{50%{opacity:.2}}
+.orb-wrap{display:grid;place-items:center;height:min(52vw,680px)}
+.orb{position:relative;width:min(43vw,560px);aspect-ratio:1;border:1px solid rgba(75,176,255,.25);border-radius:50%;transform:rotate(16deg);box-shadow:inset 0 0 100px rgba(22,140,255,.05),0 0 80px rgba(22,140,255,.07)}
+.orb:before,.orb:after{content:"";position:absolute;inset:12%;border:1px solid rgba(75,176,255,.32);border-radius:50%;transform:rotate(54deg) skewX(-15deg);animation:spin 17s linear infinite}
+.orb:after{inset:2%;opacity:.42;transform:rotate(-31deg) skewX(18deg);animation-direction:reverse;animation-duration:24s}
+@keyframes spin{to{transform:rotate(414deg) skewX(-15deg)}}
+.orb-glow{position:absolute;inset:35%;border-radius:50%;background:radial-gradient(circle,#c8ecff 0 2%,var(--blue) 15%,rgba(22,140,255,.2) 48%,transparent 72%);box-shadow:0 0 70px var(--blue),0 0 180px rgba(22,140,255,.45);animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.12);opacity:.85}}
+.orb-core{position:absolute;inset:45%;z-index:2;display:grid;place-items:center;border:1px solid rgba(255,255,255,.55);border-radius:50%;font:18px "DM Mono";color:#fff}
+.orb-label{position:absolute;color:#47728c;font-size:11px;line-height:1.7}.orb-label.one{top:9%;right:1%}.orb-label.two{bottom:10%;left:2%}.orb-label.three{top:50%;left:-4%;transform:rotate(-90deg)}
+.code{font-size:10px;color:#5b8198}.code strong{color:var(--electric);font-weight:400}
+.section-title{max-width:1100px;margin-top:45px;font-size:clamp(72px,10.5vw,165px);line-height:.79;letter-spacing:-.075em}
+.identity-grid{display:grid;grid-template-columns:1.2fr .65fr;align-items:end;gap:10vw;margin:9vw 4vw 0 16vw}
+.identity-lead{margin:0;font-size:clamp(27px,3.1vw,50px);line-height:1.08;letter-spacing:-.045em}.copy{color:#86a0b2;font-size:clamp(18px,1.35vw,22px);line-height:1.55}.copy p{margin:0 0 24px}
+.fields-head{display:flex;align-items:end;justify-content:space-between;gap:40px;margin:55px 0 7vw}.fields-head p{max-width:260px;color:#6f8da1;font:10px/1.7 "DM Mono";text-transform:uppercase}
+.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:1180px;margin:auto}.field{position:relative;min-height:330px;overflow:hidden;padding:27px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(7,25,39,.92),rgba(3,13,22,.78));transition:.3s}.field:hover{transform:translateY(-8px);border-color:var(--line2);box-shadow:0 0 70px rgba(22,140,255,.12)}.field:nth-child(2){margin-top:90px}.field:nth-child(3){margin-top:-45px}.field:nth-child(4){margin-top:45px}.field h3{margin-top:70px;font-size:clamp(42px,5.3vw,84px);line-height:.8;letter-spacing:-.07em}.field .meta{position:absolute;top:27px;right:27px;text-align:right;font:10px/1.8 "DM Mono";text-transform:uppercase;color:#52768d}.field .status{margin-top:32px;font-size:9px;color:#5d8299}
+.projects{max-width:1180px;margin:8vw auto 0}.project{position:relative;min-height:650px;margin-bottom:10vw;padding:4vw;overflow:hidden;border:1px solid var(--line);background:var(--panel)}.project:first-child{width:76%;margin-left:4%;transform:rotate(-1deg)}.project:last-child{width:55%;margin:-5vw 5% 0 auto;transform:rotate(1.2deg)}.project h3{margin-top:7vw;font-size:clamp(62px,8vw,116px);line-height:.72;letter-spacing:-.075em}.project p{max-width:540px;margin:4vw 0 0 8vw;color:#8aa3b4;font-size:clamp(18px,1.4vw,23px);line-height:1.5}.project .tags{position:absolute;bottom:4vw;left:4vw;font-size:9px;color:#58788d}
+.now-big{display:flex;flex-direction:column;margin:8vw 0 8vw 8vw;font-size:clamp(70px,10.5vw,165px);line-height:.82;letter-spacing:-.075em}.now-big span:last-child{margin-left:14vw;color:var(--blue);text-shadow:0 0 60px rgba(22,140,255,.3)}
+.now-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:0 7vw;background:var(--line)}.now-item{min-height:220px;padding:27px;background:var(--panel)}.now-item p{max-width:280px;margin-top:55px;color:#89a3b5;font-size:18px;line-height:1.5}
+.contact{display:flex;align-items:center;overflow:hidden}.contact-circle{display:grid;width:min(40vw,560px);aspect-ratio:1;place-items:center;border:1px solid rgba(76,179,255,.4);border-radius:50%;font:800 clamp(52px,8vw,118px)/.68 "Syne";letter-spacing:-.07em;text-align:center;text-transform:uppercase;transform:rotate(-10deg);box-shadow:inset 0 0 90px rgba(22,140,255,.06),0 0 90px rgba(22,140,255,.08)}.contact-copy{position:relative;z-index:2;margin-left:-5vw}.contact-copy h2{margin-top:45px;font-size:clamp(65px,9vw,145px);line-height:.72;letter-spacing:-.075em}.contact-copy p{margin:40px 0 16px;color:#87a0b2;font-size:18px}.contact-copy a{display:inline-block;padding-bottom:6px;border-bottom:1px solid var(--blue);color:var(--electric);font:14px "DM Mono";text-decoration:none}.coords{position:absolute;right:6vw;bottom:6vw;color:#52768d;font-size:10px;line-height:1.8;text-align:right}
+@media(max-width:850px){body:before{opacity:.08;background-size:48px 48px}section{min-height:0;padding:90px 7vw}.hero{padding:32px 7vw}.topbar span:last-child,.orb-wrap,.contact-circle{display:none}.hero-grid{display:block;min-height:0;padding:120px 0 90px}h1{font-size:20vw}.hero-copy,.hero-status{margin-left:0}.section-title{font-size:13vw}.identity-grid{display:block;margin:70px 0 0}.fields-head{display:block}.fields-head p{margin-top:40px}.fields{grid-template-columns:1fr}.field,.field:nth-child(n){min-height:290px;margin:0}.projects{margin-top:70px}.project,.project:first-child,.project:last-child{width:100%;min-height:0;margin:0 0 60px;padding:7vw;transform:none}.project h3{font-size:13vw}.project p{margin-left:0}.now-big{margin-left:0}.now-big span:last-child{margin-left:4vw}.now-grid{grid-template-columns:1fr;margin:0}.contact{display:block}.contact-copy{margin-left:0}.contact-copy h2{font-size:14vw}.coords{position:static;margin-top:60px;text-align:left}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<main>
+<section class="hero">
+  <div class="topbar"><span>PERSONAL SYSTEM / 2026</span><span class="electric">ONLINE / NO FIXED ROLE</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1><span>YULIA</span><span class="outline">ESHKILEVA</span></h1>
+      <p class="hero-copy">I like building things, understanding how they work, and figuring out <em>what comes next.</em></p>
+      <div class="hero-status"><div><i class="dot"></i>CURIOUS / RESTLESS / ONLINE</div><div>MEMORY / 017</div></div>
+    </div>
+    <div class="orb-wrap"><div class="orb"><div class="orb-glow"></div><div class="orb-core">Y</div><div class="orb-label one">CODE / ACTIVE<br>SYSTEMS / LEARNING<br>AI / EXPLORING</div><div class="orb-label two">WEB / INTERFACES<br>LOGIC / MOTION</div><div class="orb-label three">FROM SIGNAL / TO SYSTEM</div></div></div>
+  </div>
+</section>
+<section>
+  <div class="code"><strong>/ 01</strong> — IDENTITY</div>
+  <h2 class="section-title">I BUILD.<br><span class="outline">I QUESTION.</span></h2>
+  <div class="identity-grid"><p class="identity-lead">I enjoy turning vague ideas into interfaces, systems, and experiments that can be understood.</p><div class="copy"><p>I work close to code, design, and logic — usually where several disciplines overlap.</p><p>I care about how things feel, but also about what keeps them coherent underneath.</p></div></div>
+</section>
+<section>
+  <div class="code"><strong>/ 02</strong> — FIELDS</div>
+  <div class="fields-head"><h2 class="section-title">WHAT I<br>WORK WITH</h2><p>TOOLS, QUESTIONS, AND DIRECTIONS THAT KEEP REAPPEARING.</p></div>
+  <div class="fields">
+    <article class="field"><div class="code">01</div><div class="meta">STATE / ACTIVE<br>DEPTH / GROWING</div><h3>FRONTEND</h3><div class="status">INTERFACES / COMPONENTS / STATES</div></article>
+    <article class="field"><div class="code">02</div><div class="meta">STATE / LEARNING<br>DEPTH / GROWING</div><h3>SYSTEMS</h3><div class="status">LOGIC / REQUIREMENTS / CONNECTIONS</div></article>
+    <article class="field"><div class="code">03</div><div class="meta">STATE / EXPLORING<br>DEPTH / OPEN</div><h3>AI +<br>AUTOMATION</h3><div class="status">TOOLS / FLOWS / EXPERIMENTS</div></article>
+    <article class="field"><div class="code">04</div><div class="meta">STATE / BUILDING<br>DEPTH / PRACTICAL</div><h3>TELEGRAM</h3><div class="status">BOTS / MESSAGES / SMALL SYSTEMS</div></article>
+  </div>
+</section>
+<section>
+  <div class="code"><strong>/ 03</strong> — WORK</div>
+  <h2 class="section-title">PROJECTS &amp;<br><span class="outline">EXPERIMENTS</span></h2>
+  <div class="projects">
+    <article class="project"><div class="code">PROJECT / 00</div><h3>JOB<br>AGENT</h3><p>A small system for collecting, comparing, and explaining job-search signals through automation and Telegram.</p><div class="tags">TS / NODE / AI / DATA</div></article>
+    <article class="project"><div class="code">PROJECT / 01</div><h3>WEB<br>EXPERIMENTS</h3><p>Isolated interface studies focused on responsive composition, typography, and meaningful motion.</p><div class="tags">REACT / GSAP / CSS / UI</div></article>
+  </div>
+</section>
+<section>
+  <div class="code"><strong>/ 04</strong> — NOW</div>
+  <h2 class="now-big"><span>WHAT I'M</span><span>LEARNING</span></h2>
+  <div class="now-grid"><article class="now-item"><div class="code">01 / SYSTEMS</div><p>Describing requirements, processes, integrations, and the relationships between parts.</p></article><article class="now-item"><div class="code">02 / AUTOMATION</div><p>Using AI and small tools to remove repetitive work without hiding the logic.</p></article><article class="now-item"><div class="code">03 / MOTION</div><p>Exploring movement as information, hierarchy, and feedback rather than decoration.</p></article></div>
+</section>
+<section class="contact">
+  <div class="contact-circle">SAY<br>HI</div>
+  <div class="contact-copy"><div class="code"><strong>/ 05</strong> — CONTACT</div><h2>IF YOU HAVE<br><span class="outline">AN IDEA</span></h2><p>or a strange problem, a project, an opportunity, a thought —</p><a href="mailto:hello@example.com">hello@example.com ↗</a></div>
+  <div class="coords">48°51' N / 2°21' E<br>somewhere online</div>
+</section>
+</main>
+</body>
+</html>
