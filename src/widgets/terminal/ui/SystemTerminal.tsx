@@ -102,7 +102,7 @@ export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
     })
     const nextLines = result.clear ? [] : [...lines, `> ${query}`, ...result.output]
     setLines(nextLines)
-    setLive(result.clear ? 'буфер очищен' : query.trim() || result.output.join(' '))
+    setLive(result.output.join(' ') || (result.clear ? 'буфер очищен' : ''))
     setQuery('')
     if (result.navigateTo) {
       onClose()
