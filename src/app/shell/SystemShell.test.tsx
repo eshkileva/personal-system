@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { lazy } from 'react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import { SystemShell } from './SystemShell'
@@ -73,6 +74,26 @@ describe('SystemShell navigation', () => {
     expect(
       screen.queryByRole('dialog', { name: /все разделы/i }),
     ).not.toBeInTheDocument()
+  })
+
+  it('keeps navigation and status mounted while a lazy outlet loads', () => {
+    const PendingPage = lazy(() => new Promise<{ default: () => null }>(() => {}))
+
+    render(
+      <MemoryRouter initialEntries={['/profile']}>
+        <Routes>
+          <Route element={<SystemShell />}>
+            <Route path="/profile" element={<PendingPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getAllByRole('navigation', { name: /система|навигация/i }),
+    ).not.toHaveLength(0)
+    expect(screen.getByText('INITIALIZING')).toBeInTheDocument()
+    expect(screen.getByText('ЗАГРУЗКА МОДУЛЯ')).toBeVisible()
   })
 
   it('does not mark a module index active on an instance route', () => {

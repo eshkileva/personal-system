@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { ProjectPage } from '../../pages/project/ui/ProjectPage'
 import { SystemShell } from '../shell/SystemShell'
@@ -39,29 +39,19 @@ const NotFoundPage = lazy(() =>
   })),
 )
 
-function RouteFallback() {
-  return (
-    <div className="system-placeholder" role="status">
-      ЗАГРУЗКА МОДУЛЯ
-    </div>
-  )
-}
-
 export function AppRoutes() {
   return (
-    <Suspense fallback={<RouteFallback />}>
-      <Routes>
-        <Route element={<SystemShell />}>
-          <Route path="/" element={<IndexPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/projects/:slug" element={<ProjectPage />} />
-          <Route path="/stack" element={<StackPage />} />
-          <Route path="/experience" element={<ExperiencePage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </Suspense>
+    <Routes>
+      <Route element={<SystemShell />}>
+        <Route path="/" element={<IndexPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:slug" element={<ProjectPage />} />
+        <Route path="/stack" element={<StackPage />} />
+        <Route path="/experience" element={<ExperiencePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   )
 }
