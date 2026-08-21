@@ -40,6 +40,10 @@ describe('SystemShell navigation', () => {
 
     expect(screen.queryByText(/cpu|ram/i)).not.toBeInTheDocument()
     expect(screen.getByText('INITIALIZING')).toBeInTheDocument()
+    expect(screen.getByText(/ROUTE \//)).toBeInTheDocument()
+    expect(screen.getByText(/MOTION LIVE|MOTION REDUCE/)).toBeInTheDocument()
+    expect(screen.getByText(/VIEW \d+×\d+/)).toBeInTheDocument()
+    expect(screen.getByText(/SESSION \d{2}:\d{2}/)).toBeInTheDocument()
   })
 
   it('marks active links and opens the full module list', () => {

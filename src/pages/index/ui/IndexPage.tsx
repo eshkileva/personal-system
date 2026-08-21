@@ -4,10 +4,12 @@ import { seoFromRoute } from '../../../shared/config/seo'
 import { systemRoutes } from '../../../shared/config/routes'
 import { DocumentMeta } from '../../../shared/lib/seo/DocumentMeta'
 import { PageSection, SectionLabel } from '../../../shared/ui/SectionPrimitives'
+import { IndexMap } from './IndexMap'
 
 const seo = seoFromRoute('/')
 const BOOT_KEY = 'personal-system:booted'
 const BOOT_MS = 480
+const bootSteps = ['NAV', 'PALETTE', 'MODULES'] as const
 
 function shouldPlayIndexBoot() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -62,39 +64,56 @@ export function IndexPage() {
         >
           <p className="index-boot__label">BOOT / INDEX</p>
           <p className="index-boot__title">PERSONAL SYSTEM</p>
+          <ol className="index-boot__steps">
+            {bootSteps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
         </div>
       ) : null}
       <SectionLabel number="00">СИСТЕМНЫЙ ИНДЕКС</SectionLabel>
-      <h1
-        aria-label="PERSONAL SYSTEM"
-        className="index-title mt-8 max-w-5xl min-w-0 font-display text-[clamp(2rem,12vw,10rem)] uppercase leading-[0.82] tracking-[-0.045em] wrap-break-word"
-      >
-        PERSONAL
-        <br />
-        <span className="text-outline-strong">SYSTEM</span>
-      </h1>
-      <p className="mt-10 max-w-2xl text-[clamp(1.25rem,3vw,2rem)] leading-tight text-copy">
-        Юлия Ешкилева — frontend-разработчик. Профиль, проекты, стек,
-        траектория и контакт разложены по отдельным модулям.
-      </p>
-      <nav className="mt-16 max-w-4xl min-w-0" aria-label="Модули системы">
-        <ul className="m-0 grid list-none gap-px bg-line p-0 sm:grid-cols-2">
-          {systemRoutes.map((route, index) => (
-            <li key={route.path} className="min-w-0 bg-project">
-              <Link
-                to={route.path}
-                className="group block min-h-36 min-w-0 cursor-pointer p-6 no-underline transition-colors duration-200 hover:bg-signal/10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-electric"
-              >
-                <span className="font-mono text-xs text-meta">
-                  {String(index).padStart(2, '0')} / FILE
-                </span>
-                <span className="mt-8 block font-display text-2xl uppercase tracking-tight wrap-break-word group-hover:text-electric">
-                  system://{route.label}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className="index-console">
+        <div>
+          <h1
+            aria-label="PERSONAL SYSTEM"
+            className="index-title mt-8 max-w-5xl min-w-0 font-display text-[clamp(1.75rem,8vw,5.5rem)] uppercase leading-[0.82] tracking-[-0.045em] wrap-break-word"
+          >
+            PERSONAL
+            <br />
+            <span className="text-outline-strong">SYSTEM</span>
+          </h1>
+          <p className="mt-8 max-w-xl text-[clamp(1.05rem,2.4vw,1.5rem)] leading-snug text-copy">
+            Юлия Ешкилева — frontend-разработчик. Модули системы ниже: путь,
+            состояние, переход.
+          </p>
+        </div>
+        <IndexMap />
+      </div>
+      <nav className="index-files mt-12 min-w-0" aria-label="Модули системы">
+        <table className="index-files__table">
+          <thead>
+            <tr>
+              <th scope="col">ADDR</th>
+              <th scope="col">PATH</th>
+              <th scope="col">STATE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {systemRoutes.map((route, index) => (
+              <tr key={route.path}>
+                <td className="index-files__addr">
+                  {String(index).padStart(2, '0')}
+                </td>
+                <td>
+                  <Link className="index-files__link" to={route.path}>
+                    system://{route.label}
+                  </Link>
+                </td>
+                <td className="index-files__state">READY</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </nav>
     </PageSection>
   )

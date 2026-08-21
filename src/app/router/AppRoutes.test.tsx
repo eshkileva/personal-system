@@ -52,6 +52,16 @@ describe('AppRoutes', () => {
       ).toHaveAttribute('href', route.path)
     }
 
+    expect(within(moduleNav).getByText('PATH')).toBeVisible()
+    expect(within(moduleNav).getByText('STATE')).toBeVisible()
+    expect(within(moduleNav).getAllByText('READY')).toHaveLength(
+      systemRoutes.length,
+    )
+    expect(document.querySelector('[data-index-map]')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    )
+
     await waitFor(() => {
       expect(document.title).toBe('Юлия Ешкилева — Personal System')
     })
