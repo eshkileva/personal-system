@@ -42,7 +42,7 @@ export function ProjectHero({ project, nextProjectSlug }: ProjectHeroProps) {
         className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs uppercase tracking-[0.13em] text-label"
       >
         <Link
-          to="/"
+          to="/projects"
           className="min-h-11 content-center text-electric focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
         >
           ← К списку проектов

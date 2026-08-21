@@ -9,7 +9,6 @@ import {
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { AppRoutes } from '../../../app/router/AppRoutes'
-import { HomePage } from '../../home/ui/HomePage'
 
 afterEach(cleanup)
 
@@ -57,63 +56,9 @@ describe('project routes', () => {
     )
     expect(screen.getByText(/проект не найден/i)).toBeVisible()
     const backLink = screen.getByRole('link', { name: /к списку проектов/i })
-    expect(backLink).toHaveAttribute('href', '/')
+    expect(backLink).toHaveAttribute('href', '/projects')
     expect(
       within(backLink).getByText('↗', { selector: '[aria-hidden="true"]' }),
-    ).toBeVisible()
-  })
-
-  it('hides the decorative terminal visual from assistive technology', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>,
-    )
-
-    expect(
-      container.querySelector('[data-terminal-visual][aria-hidden="true"]'),
-    ).not.toBeNull()
-  })
-
-  it('links the home project cards to their dossiers', () => {
-    render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>,
-    )
-    expect(screen.getByRole('link', { name: /открыть досье агента поиска работы/i }))
-      .toHaveAttribute('href', '/projects/job-agent')
-    expect(
-      screen.getByRole('link', {
-        name: /открыть досье веб-экспериментов/i,
-      }),
-    ).toHaveAttribute('href', '/projects/web-experiments')
-  })
-
-  it('renders the wildcard route fallback', () => {
-    render(
-      <MemoryRouter initialEntries={['/not-a-project-route']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    )
-
-    expect(screen.getByText(/проект не найден/i)).toBeVisible()
-    expect(screen.getByRole('link', { name: /к списку проектов/i }))
-      .toHaveAttribute('href', '/')
-  })
-
-  it('hides decorative project-card glyphs from screen readers', () => {
-    render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>,
-    )
-
-    const webExperimentsLink = screen.getByRole('link', {
-      name: /открыть досье веб-экспериментов/i,
-    })
-    expect(
-      within(webExperimentsLink).getByText('↗', { selector: '[aria-hidden="true"]' }),
     ).toBeVisible()
   })
 
@@ -137,7 +82,7 @@ describe('project routes', () => {
   })
 
   it('renders the complete dossier structure', () => {
-    document.title = 'Юлия Ешкилева — Frontend-разработчик'
+    document.title = 'Юлия Ешкилева — Personal System'
     const { unmount } = render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
@@ -161,11 +106,11 @@ describe('project routes', () => {
     expect(document.title).toBe('Агент поиска работы — Досье проекта')
 
     unmount()
-    expect(document.title).toBe('Юлия Ешкилева — Frontend-разработчик')
+    expect(document.title).toBe('Юлия Ешкилева — Personal System')
   })
 
-  it('restores the home title when navigating from a project', () => {
-    document.title = 'Юлия Ешкилева — Frontend-разработчик'
+  it('opens the projects index when leaving a dossier', async () => {
+    document.title = 'Юлия Ешкилева — Personal System'
     render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
@@ -178,9 +123,11 @@ describe('project routes', () => {
     )
 
     expect(
-      screen.getByRole('heading', { name: /пишу код.*разбираю системы/i }),
+      await screen.findByRole('heading', { name: /системные инстансы/i }),
     ).toBeVisible()
-    expect(document.title).toBe('Юлия Ешкилева — Frontend-разработчик')
+    expect(document.title).toBe(
+      'Проекты — Personal System | Юлия Ешкилева',
+    )
   })
 
   it('does not hide dossier content before animation', () => {

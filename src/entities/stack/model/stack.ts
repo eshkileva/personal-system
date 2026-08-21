@@ -1,19 +1,19 @@
-export type FieldMetric = {
+export type StackMetric = {
   label: string
   value: string
   accent?: boolean
 }
 
-export type Field = {
+export type StackEntry = {
   number: string
   title: string
   subtitle: string
-  metrics: FieldMetric[]
+  metrics: StackMetric[]
 }
 
-export const fields: Field[] = [
+export const stackEntries: StackEntry[] = [
   {
-    number: '01 / СФЕРА',
+    number: '01 / СТЕК',
     title: 'FRONTEND',
     subtitle: 'React / TypeScript / адаптивные интерфейсы',
     metrics: [
@@ -23,7 +23,7 @@ export const fields: Field[] = [
     ],
   },
   {
-    number: '02 / СФЕРА',
+    number: '02 / СТЕК',
     title: 'СИСТЕМНЫЙ АНАЛИЗ',
     subtitle: 'требования / процессы / данные / интеграции',
     metrics: [
@@ -33,7 +33,7 @@ export const fields: Field[] = [
     ],
   },
   {
-    number: '03 / СФЕРА',
+    number: '03 / СТЕК',
     title: 'AI-АВТОМАТИЗАЦИЯ',
     subtitle: 'агенты / сценарии / обработка информации',
     metrics: [
@@ -43,7 +43,7 @@ export const fields: Field[] = [
     ],
   },
   {
-    number: '04 / СФЕРА',
+    number: '04 / СТЕК',
     title: 'TELEGRAM-БОТЫ',
     subtitle: 'интерфейсы в чате / API / автоматизация',
     metrics: [
@@ -53,18 +53,3 @@ export const fields: Field[] = [
     ],
   },
 ]
-
-export const nowItems = [
-  {
-    label: '01 / FRONTEND',
-    text: 'Архитектура и поддерживаемость приложений на React и TypeScript.',
-  },
-  {
-    label: '02 / СИСТЕМНЫЙ АНАЛИЗ',
-    text: 'Требования, процессы, данные и интеграции между частями продукта.',
-  },
-  {
-    label: '03 / АВТОМАТИЗАЦИЯ',
-    text: 'Личные AI-инструменты, автоматизации и Telegram-боты.',
-  },
-] as const

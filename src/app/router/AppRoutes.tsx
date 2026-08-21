@@ -1,36 +1,67 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { HomePage } from '../../pages/home/ui/HomePage'
-import { ProjectNotFound } from '../../pages/project/ui/ProjectNotFound'
 import { ProjectPage } from '../../pages/project/ui/ProjectPage'
 import { SystemShell } from '../shell/SystemShell'
 
-function PlaceholderPage({ path }: { path: string }) {
+const IndexPage = lazy(() =>
+  import('../../pages/index/ui/IndexPage').then((module) => ({
+    default: module.IndexPage,
+  })),
+)
+const ProfilePage = lazy(() =>
+  import('../../pages/profile/ui/ProfilePage').then((module) => ({
+    default: module.ProfilePage,
+  })),
+)
+const ProjectsPage = lazy(() =>
+  import('../../pages/projects/ui/ProjectsPage').then((module) => ({
+    default: module.ProjectsPage,
+  })),
+)
+const StackPage = lazy(() =>
+  import('../../pages/stack/ui/StackPage').then((module) => ({
+    default: module.StackPage,
+  })),
+)
+const ExperiencePage = lazy(() =>
+  import('../../pages/experience/ui/ExperiencePage').then((module) => ({
+    default: module.ExperiencePage,
+  })),
+)
+const ContactPage = lazy(() =>
+  import('../../pages/contact/ui/ContactPage').then((module) => ({
+    default: module.ContactPage,
+  })),
+)
+const NotFoundPage = lazy(() =>
+  import('../../pages/not-found/ui/NotFoundPage').then((module) => ({
+    default: module.NotFoundPage,
+  })),
+)
+
+function RouteFallback() {
   return (
-    <section className="system-placeholder">
-      <h1>{path}</h1>
-    </section>
+    <div className="system-placeholder" role="status">
+      ЗАГРУЗКА МОДУЛЯ
+    </div>
   )
 }
 
 export function AppRoutes() {
   return (
-    <Routes>
-      <Route element={<SystemShell />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/profile" element={<PlaceholderPage path="/profile" />} />
-        <Route
-          path="/projects"
-          element={<PlaceholderPage path="/projects" />}
-        />
-        <Route path="/projects/:slug" element={<ProjectPage />} />
-        <Route path="/stack" element={<PlaceholderPage path="/stack" />} />
-        <Route
-          path="/experience"
-          element={<PlaceholderPage path="/experience" />}
-        />
-        <Route path="/contact" element={<PlaceholderPage path="/contact" />} />
-        <Route path="*" element={<ProjectNotFound />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<RouteFallback />}>
+      <Routes>
+        <Route element={<SystemShell />}>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:slug" element={<ProjectPage />} />
+          <Route path="/stack" element={<StackPage />} />
+          <Route path="/experience" element={<ExperiencePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </Suspense>
   )
 }

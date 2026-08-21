@@ -5,6 +5,7 @@ import {
   getProjectBySlug,
 } from '../../../entities/project/model/selectors'
 import type { Project } from '../../../entities/project/model/types'
+import { seoFromRoute } from '../../../shared/config/seo'
 import { useProjectMotion } from '../lib/useProjectMotion'
 import { DecisionCard } from './DecisionCard'
 import { NextProjectLink } from './NextProjectLink'
@@ -15,7 +16,7 @@ import { ProjectNotFound } from './ProjectNotFound'
 import { ProjectOutcome } from './ProjectOutcome'
 import { SystemDiagram } from './SystemDiagram'
 
-const PORTFOLIO_TITLE = 'Юлия Ешкилева — Frontend-разработчик'
+const INDEX_TITLE = seoFromRoute('/').title
 
 export function ProjectPage() {
   const { slug = '' } = useParams()
@@ -39,7 +40,7 @@ function ProjectDossier({ project }: { project: Project }) {
     document.title = project.seoTitle
 
     return () => {
-      document.title = PORTFOLIO_TITLE
+      document.title = INDEX_TITLE
     }
   }, [project.seoTitle])
 

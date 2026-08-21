@@ -14,7 +14,7 @@ export function ProjectNotFound() {
         чтобы посмотреть доступные проекты.
       </p>
       <Link
-        to="/"
+        to="/projects"
         className="inline-flex min-h-11 items-center gap-2 font-mono text-xs uppercase tracking-[0.13em] text-electric underline-offset-4 transition-colors hover:text-ice focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
       >
         К списку проектов <span aria-hidden="true">↗</span>
