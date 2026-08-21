@@ -24,7 +24,7 @@ function renderTerminal() {
 describe('SystemTerminal', () => {
   it('runs help from the native command input and announces output', async () => {
     const { container } = renderTerminal()
-    const pre = container.querySelector('.system-terminal__pre')!
+    const pre = container.querySelector('.system-terminal__pre') as HTMLElement
 
     const input = screen.getByRole('textbox', { name: /команда терминала/i })
     expect(input).toHaveFocus()
@@ -38,7 +38,7 @@ describe('SystemTerminal', () => {
 
   it('navigates with open and refuses sudo', async () => {
     const { container } = renderTerminal()
-    const pre = container.querySelector('.system-terminal__pre')!
+    const pre = container.querySelector('.system-terminal__pre') as HTMLElement
     const input = screen.getByRole('textbox', { name: /команда терминала/i })
 
     fireEvent.change(input, { target: { value: 'sudo' } })

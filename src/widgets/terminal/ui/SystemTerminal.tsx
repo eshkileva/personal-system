@@ -26,7 +26,7 @@ export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
     writeln: (value: string) => void
     dispose: () => void
     clear: () => void
-  }>()
+  } | null>(null)
   const linesRef = useRef<string[]>([])
   const [query, setQuery] = useState('')
   const [lines, setLines] = useState<string[]>(['personal-system terminal. введите help.'])
@@ -81,7 +81,7 @@ export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
     return () => {
       disposed = true
       termRef.current?.dispose()
-      termRef.current = undefined
+      termRef.current = null
     }
   }, [])
 
