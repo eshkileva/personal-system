@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import type { SystemBootState } from '../../../features/system-boot/model/useSystemBoot'
 import {
@@ -110,11 +110,19 @@ export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
     }
   }
 
+  function trapTabFocus(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault()
+      inputRef.current?.focus()
+    }
+  }
+
   return (
     <div
       aria-label="Терминал"
       aria-modal="true"
       className="system-terminal"
+      onKeyDown={trapTabFocus}
       role="dialog"
     >
       <p className="system-terminal__label">terminal</p>

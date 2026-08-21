@@ -50,4 +50,13 @@ describe('SystemTerminal', () => {
     fireEvent.submit(input.closest('form')!)
     expect(await screen.findByRole('heading', { name: /stack outlet/i })).toBeVisible()
   })
+
+  it('keeps Tab focus on the command input', () => {
+    renderTerminal()
+    const terminal = screen.getByRole('dialog', { name: /terminal|терминал/i })
+    const input = within(terminal).getByRole('textbox', { name: /команда терминала/i })
+
+    fireEvent.keyDown(terminal, { key: 'Tab' })
+    expect(input).toHaveFocus()
+  })
 })

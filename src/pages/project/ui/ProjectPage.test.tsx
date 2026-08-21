@@ -214,6 +214,14 @@ describe('project routes', () => {
       '[data-project-signal="wave"]',
     )
     expect(webSignal).not.toHaveAttribute('aria-hidden')
+    expect(webSignal?.querySelector('.project-wave-field')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    )
+    expect(webSignal?.querySelector('.project-experiment-windows')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    )
     expect(
       webSignal?.querySelectorAll('[data-experiment-window]'),
     ).toHaveLength(3)

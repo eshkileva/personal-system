@@ -376,6 +376,7 @@
   .project-wave-field {
     position: absolute;
     inset: 1rem 0 0;
+    pointer-events: none;
     overflow: hidden;
     border: 1px solid var(--color-line);
     background:
@@ -403,6 +404,7 @@
   .project-experiment-windows {
     position: absolute;
     inset: 3.5rem 2rem 2rem 7rem;
+    pointer-events: none;
   }
 
   .project-experiment-window {

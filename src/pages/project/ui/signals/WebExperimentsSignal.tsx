@@ -37,7 +37,7 @@ export function WebExperimentsSignal({ experiments }: WebExperimentsSignalProps)
       <div className="project-terminal">
         <p>{active.hypothesis}</p>
       </div>
-      <div className="project-wave-field">
+      <div aria-hidden="true" className="project-wave-field">
         {Array.from({ length: 7 }, (_, index) => (
           <span
             key={index}
@@ -46,7 +46,7 @@ export function WebExperimentsSignal({ experiments }: WebExperimentsSignalProps)
           />
         ))}
       </div>
-      <div className="project-experiment-windows">
+      <div aria-hidden="true" className="project-experiment-windows">
         {experiments.map((experiment) => (
           <div
             key={experiment.id}
