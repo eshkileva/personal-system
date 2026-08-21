@@ -9,6 +9,7 @@ function ModuleLinks({ close }: { close?: () => void }) {
         <li key={route.path}>
           <NavLink
             className="system-nav__link"
+            end
             onClick={close}
             to={route.path}
           >
@@ -42,7 +43,7 @@ export function SystemNav() {
         <ul className="system-dock">
           {systemRoutes.map((route) => (
             <li key={route.path}>
-              <NavLink className="system-dock__link" to={route.path}>
+              <NavLink className="system-dock__link" end to={route.path}>
                 {route.path === '/' ? '/' : route.label}
               </NavLink>
             </li>

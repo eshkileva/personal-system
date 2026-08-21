@@ -57,6 +57,12 @@ describe('SystemShell navigation', () => {
         .getAllByRole('link', { name: /profile/i })
         .some((link) => link.getAttribute('aria-current') === 'page'),
     ).toBe(true)
+    expect(
+      screen
+        .getAllByRole('link')
+        .filter((link) => link.getAttribute('href') === '/')
+        .every((link) => link.getAttribute('aria-current') !== 'page'),
+    ).toBe(true)
 
     fireEvent.click(screen.getByRole('button', { name: /все разделы/i }))
     expect(
@@ -67,5 +73,27 @@ describe('SystemShell navigation', () => {
     expect(
       screen.queryByRole('dialog', { name: /все разделы/i }),
     ).not.toBeInTheDocument()
+  })
+
+  it('does not mark a module index active on an instance route', () => {
+    render(
+      <MemoryRouter initialEntries={['/projects/job-agent']}>
+        <Routes>
+          <Route element={<SystemShell />}>
+            <Route
+              path="/projects/:slug"
+              element={<div>project instance outlet</div>}
+            />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen
+        .getAllByRole('link')
+        .filter((link) => link.getAttribute('href') === '/projects')
+        .every((link) => link.getAttribute('aria-current') !== 'page'),
+    ).toBe(true)
   })
 })
