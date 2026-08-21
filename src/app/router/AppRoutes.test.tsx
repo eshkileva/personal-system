@@ -69,7 +69,10 @@ describe('AppRoutes', () => {
     renderRoute('/')
 
     expect(
-      await screen.findByRole('navigation', { name: /модули системы/i }),
+      await screen.findByRole('heading', { name: /personal system/i }),
+    ).toBeVisible()
+    expect(
+      screen.getByRole('navigation', { name: /модули системы/i }),
     ).toBeVisible()
     expect(
       screen.queryByRole('status', { name: /инициализация системы/i }),

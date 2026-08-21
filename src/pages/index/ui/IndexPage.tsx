@@ -67,7 +67,7 @@ export function IndexPage() {
       <SectionLabel number="00">СИСТЕМНЫЙ ИНДЕКС</SectionLabel>
       <h1
         aria-label="PERSONAL SYSTEM"
-        className="mt-8 max-w-5xl font-display text-[clamp(3rem,12vw,10rem)] uppercase leading-[0.82] tracking-[-0.045em]"
+        className="index-title mt-8 max-w-5xl min-w-0 font-display text-[clamp(2rem,12vw,10rem)] uppercase leading-[0.82] tracking-[-0.045em] wrap-break-word"
       >
         PERSONAL
         <br />
@@ -77,18 +77,18 @@ export function IndexPage() {
         Юлия Ешкилева — frontend-разработчик. Профиль, проекты, стек,
         траектория и контакт разложены по отдельным модулям.
       </p>
-      <nav className="mt-16 max-w-4xl" aria-label="Модули системы">
+      <nav className="mt-16 max-w-4xl min-w-0" aria-label="Модули системы">
         <ul className="m-0 grid list-none gap-px bg-line p-0 sm:grid-cols-2">
           {systemRoutes.map((route, index) => (
-            <li key={route.path} className="bg-project">
+            <li key={route.path} className="min-w-0 bg-project">
               <Link
                 to={route.path}
-                className="group block min-h-36 cursor-pointer p-6 no-underline transition-colors duration-200 hover:bg-signal/10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-electric"
+                className="group block min-h-36 min-w-0 cursor-pointer p-6 no-underline transition-colors duration-200 hover:bg-signal/10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-electric"
               >
                 <span className="font-mono text-xs text-meta">
                   {String(index).padStart(2, '0')} / FILE
                 </span>
-                <span className="mt-8 block font-display text-2xl uppercase tracking-tight group-hover:text-electric">
+                <span className="mt-8 block font-display text-2xl uppercase tracking-tight wrap-break-word group-hover:text-electric">
                   system://{route.label}
                 </span>
               </Link>

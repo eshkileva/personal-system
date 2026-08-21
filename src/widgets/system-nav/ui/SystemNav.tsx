@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { systemRoutes } from '../../../shared/config/routes'
 
@@ -25,6 +25,25 @@ function ModuleLinks({ close }: { close?: () => void }) {
 
 export function SystemNav() {
   const [allModulesOpen, setAllModulesOpen] = useState(false)
+  const allButtonRef = useRef<HTMLButtonElement>(null)
+
+  useLayoutEffect(() => {
+    if (!allModulesOpen) {
+      return
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') {
+        return
+      }
+
+      setAllModulesOpen(false)
+      allButtonRef.current?.focus()
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [allModulesOpen])
 
   return (
     <>
@@ -52,6 +71,7 @@ export function SystemNav() {
         <button
           className="system-dock__all"
           onClick={() => setAllModulesOpen(true)}
+          ref={allButtonRef}
           type="button"
         >
           все разделы

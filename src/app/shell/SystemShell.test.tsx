@@ -76,6 +76,69 @@ describe('SystemShell navigation', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('closes the full module list on Escape', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route element={<SystemShell />}>
+            <Route path="/" element={<div>stub outlet</div>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    const opener = screen.getByRole('button', { name: /все разделы/i })
+    fireEvent.click(opener)
+    expect(
+      screen.getByRole('dialog', { name: /все разделы/i }),
+    ).toBeInTheDocument()
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(
+      screen.queryByRole('dialog', { name: /все разделы/i }),
+    ).not.toBeInTheDocument()
+    expect(opener).toHaveFocus()
+  })
+
+  it('keeps palette and nav keyboard reachable', () => {
+    render(
+      <MemoryRouter initialEntries={['/profile']}>
+        <Routes>
+          <Route element={<SystemShell />}>
+            <Route path="/profile" element={<div>profile outlet</div>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    const navLinks = screen.getAllByRole('link').filter((link) =>
+      ['/', '/profile', '/projects', '/stack', '/experience', '/contact'].includes(
+        link.getAttribute('href') ?? '',
+      ),
+    )
+    expect(navLinks.length).toBeGreaterThan(0)
+    expect(
+      navLinks.every(
+        (link) =>
+          link.tabIndex >= 0 && link.getAttribute('aria-disabled') !== 'true',
+      ),
+    ).toBe(true)
+
+    fireEvent.keyDown(window, { key: 'k', metaKey: true })
+    const palette = screen.getByRole('dialog', {
+      name: /command palette|палитра команд/i,
+    })
+    expect(palette).toBeInTheDocument()
+    expect(screen.getByRole('searchbox', { name: /поиск команд/i })).toHaveFocus()
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(
+      screen.queryByRole('dialog', {
+        name: /command palette|палитра команд/i,
+      }),
+    ).not.toBeInTheDocument()
+  })
+
   it('keeps navigation and status mounted while a lazy outlet loads', () => {
     const PendingPage = lazy(() => new Promise<{ default: () => null }>(() => {}))
 

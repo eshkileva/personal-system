@@ -64,20 +64,8 @@
     overflow-wrap: anywhere;
   }
 
-  .project-chapter-nav {
-    position: static;
-  }
-
-  [data-system-diagram] {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .project-chapter {
-    padding: clamp(4rem, 12vw, 7rem) 7vw;
-  }
-
-  .project-technical-id {
-    overflow-wrap: anywhere;
+  .index-title {
+    font-size: clamp(2rem, 11vw, 3rem);
   }
 }
 
@@ -91,10 +79,6 @@
   font-size: clamp(2.25rem, 9.5vw, 8.75rem);
   line-height: 0.84;
   letter-spacing: -0.035em;
-  overflow-wrap: anywhere;
-}
-
-[data-system-diagram] h3 {
   overflow-wrap: anywhere;
 }
 
@@ -122,6 +106,7 @@
   bottom: 0;
   left: 0;
   z-index: 50;
+  overflow-x: clip;
   border-top: 1px solid var(--color-line-strong);
   background: rgb(2 6 11 / 0.96);
   backdrop-filter: blur(16px);
@@ -170,6 +155,7 @@
 
 .system-dock {
   display: flex;
+  min-width: 0;
   overflow-x: auto;
   scrollbar-width: thin;
 }
@@ -376,6 +362,7 @@
   display: grid;
   place-content: center;
   gap: 0.75rem;
+  overflow-x: clip;
   background: rgb(2 6 11 / 0.92);
   pointer-events: none;
 }
@@ -391,10 +378,13 @@
 
 .index-boot__title {
   margin: 0;
+  max-width: 100%;
   color: var(--color-ice);
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 6vw, 3rem);
+  font-size: clamp(1.25rem, 8vw, 3rem);
   letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 @media (min-width: 80rem) {
