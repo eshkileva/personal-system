@@ -11,9 +11,7 @@ function renderTerminal() {
       <Routes>
         <Route
           path="/profile"
-          element={
-            <SystemTerminal bootStatus="SYSTEM READY" onClose={() => {}} />
-          }
+          element={<SystemTerminal bootStatus="SYSTEM READY" />}
         />
         <Route path="/stack" element={<h1>stack outlet</h1>} />
       </Routes>
@@ -26,14 +24,14 @@ describe('SystemTerminal', () => {
     const { container } = renderTerminal()
     const pre = container.querySelector('.system-terminal__pre') as HTMLElement
 
-    const input = screen.getByRole('textbox', { name: /команда терминала/i })
-    expect(input).toHaveFocus()
+    expect(await within(pre).findByText(/юлия ешкилева/i)).toBeVisible()
 
+    const input = screen.getByRole('textbox', { name: /команда терминала/i })
     fireEvent.change(input, { target: { value: 'help' } })
     fireEvent.submit(input.closest('form')!)
 
-    expect(await within(pre).findByText(/whoami/i)).toBeVisible()
-    expect(screen.getByRole('status')).toHaveTextContent(/whoami/i)
+    expect(await within(pre).findByText(/diagnostics/i)).toBeVisible()
+    expect(screen.getByRole('status')).toHaveTextContent(/diagnostics/i)
   })
 
   it('navigates with open and refuses sudo', async () => {
@@ -51,12 +49,11 @@ describe('SystemTerminal', () => {
     expect(await screen.findByRole('heading', { name: /stack outlet/i })).toBeVisible()
   })
 
-  it('keeps Tab focus on the command input', () => {
+  it('renders an on-page terminal region, not a modal overlay', () => {
     renderTerminal()
-    const terminal = screen.getByRole('dialog', { name: /terminal|терминал/i })
-    const input = within(terminal).getByRole('textbox', { name: /команда терминала/i })
-
-    fireEvent.keyDown(terminal, { key: 'Tab' })
-    expect(input).toHaveFocus()
+    const terminal = screen.getByRole('region', { name: /терминал/i })
+    expect(terminal).not.toHaveAttribute('aria-modal')
+    expect(terminal.querySelector('.system-terminal__chassis')).not.toBeNull()
+    expect(terminal.querySelector('.system-terminal__space')).toBeNull()
   })
 })

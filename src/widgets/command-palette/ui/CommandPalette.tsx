@@ -7,7 +7,7 @@ import {
   type PaletteCommand,
 } from '../../../features/command-search/model/commands'
 import type { SystemBootState } from '../../../features/system-boot/model/useSystemBoot'
-import { SystemTerminal } from '../../terminal/ui/SystemTerminal'
+import { pushSessionEvent } from '../../../features/session-log/model/sessionLog'
 
 const KONAMI = [
   'ArrowUp',
@@ -22,7 +22,7 @@ const KONAMI = [
   'a',
 ] as const
 
-type Overlay = Extract<PaletteAction, 'diagnostics' | 'terminal'>
+type Overlay = Extract<PaletteAction, 'diagnostics'>
 
 type CommandPaletteProps = {
   bootStatus: SystemBootState
@@ -72,6 +72,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
           document.activeElement instanceof HTMLElement
             ? document.activeElement
             : null
+        pushSessionEvent('palette open')
       }
       wasOpen.current = true
       inputRef.current?.focus()
@@ -80,6 +81,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
 
     if (wasOpen.current) {
       wasOpen.current = false
+      pushSessionEvent('palette close')
       lastFocusRef.current?.focus()
     }
   }, [open])
@@ -154,7 +156,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
       return
     }
 
-    if (command.action === 'diagnostics' || command.action === 'terminal') {
+    if (command.action === 'diagnostics') {
       rememberOverlayOpener()
       setOpen(false)
       setQuery('')
@@ -227,12 +229,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
         </div>
       ) : null}
 
-      {overlay === 'terminal' ? (
-        <SystemTerminal
-          bootStatus={bootStatus}
-          onClose={closeOverlay}
-        />
-      ) : overlay === 'diagnostics' ? (
+      {overlay === 'diagnostics' ? (
         <div
           aria-label="Диагностика"
           aria-modal="true"

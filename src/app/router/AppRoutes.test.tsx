@@ -52,6 +52,33 @@ describe('AppRoutes', () => {
       ).toHaveAttribute('href', route.path)
     }
 
+    expect(within(moduleNav).getByText('PATH')).toBeVisible()
+    expect(within(moduleNav).getByText('STATE')).toBeVisible()
+    expect(within(moduleNav).getAllByText('READY')).toHaveLength(
+      systemRoutes.length,
+    )
+    expect(
+      await screen.findByRole('navigation', { name: /карта модулей/i }),
+    ).toBeVisible()
+    expect(document.querySelector('[data-index-map]')).not.toHaveAttribute(
+      'aria-hidden',
+    )
+    expect(
+      within(screen.getByRole('navigation', { name: /карта модулей/i })).getByRole(
+        'link',
+        { name: /^profile$/i },
+      ),
+    ).toHaveAttribute('href', '/profile')
+    expect(await screen.findByRole('region', { name: /терминал/i })).toBeVisible()
+    expect(
+      screen.getByRole('textbox', { name: /команда терминала/i }),
+    ).toBeVisible()
+    expect(
+      await within(screen.getByRole('region', { name: /терминал/i })).findByText(
+        /> whoami/,
+      ),
+    ).toBeVisible()
+
     await waitFor(() => {
       expect(document.title).toBe('Юлия Ешкилева — Personal System')
     })
@@ -92,6 +119,12 @@ describe('AppRoutes', () => {
       }),
     ).toBeVisible()
     expect(screen.getByText('FRONTEND-РАЗРАБОТЧИК')).toBeVisible()
+    expect(
+      screen.getByRole('region', { name: /схема идентичности/i }),
+    ).toBeVisible()
+    expect(screen.getByRole('heading', { name: /^код$/i })).toBeVisible()
+    expect(screen.getByRole('heading', { name: /^система$/i })).toBeVisible()
+    expect(screen.getByRole('heading', { name: /^рост$/i })).toBeVisible()
     await waitFor(() => {
       expect(document.title).toBe(
         'Профиль — Юлия Ешкилева | Personal System',
@@ -108,6 +141,9 @@ describe('AppRoutes', () => {
     expect(
       screen.getByRole('link', { name: /веб эксперименты/i }),
     ).toHaveAttribute('href', '/projects/web-experiments')
+    expect(screen.getByText('ADDR /projects/job-agent')).toBeVisible()
+    expect(screen.getByText('ПРОТОТИП')).toBeVisible()
+    expect(screen.getByText('В РАБОТЕ')).toBeVisible()
   })
 
   it('renders the current fields on the stack page', async () => {
@@ -128,15 +164,25 @@ describe('AppRoutes', () => {
     expect(
       await screen.findByRole('heading', { name: /траектория роста/i }),
     ).toBeVisible()
+    expect(container.querySelector('.trajectory-path')).not.toBeNull()
     expect(container).not.toHaveTextContent(/работодатель|клиент/i)
   })
 
-  it('keeps the contact email as a mailto link', async () => {
+  it('keeps the contact channels as real links', async () => {
     renderRoute('/contact')
 
     expect(
       await screen.findByRole('link', { name: /eshkileva69@gmail.com/i }),
     ).toHaveAttribute('href', 'mailto:eshkileva69@gmail.com')
+    expect(
+      screen.getByRole('link', { name: /github.com\/eshkileva/i }),
+    ).toHaveAttribute('href', 'https://github.com/eshkileva')
+    expect(screen.getByRole('link', { name: /t.me\/tknusnm/i })).toHaveAttribute(
+      'href',
+      'https://t.me/tknusnm',
+    )
+    expect(screen.getByRole('region', { name: /каналы связи/i })).toBeVisible()
+    expect(screen.getByText('ENDPOINTS')).toBeVisible()
   })
 
   it('renders a system not-found page for unknown paths', async () => {

@@ -54,5 +54,7 @@ describe('runTerminalCommand', () => {
     expect(runTerminalCommand('hack', context).output.join('\n')).toMatch(
       /не найдена/i,
     )
+    expect(runTerminalCommand('', context)).toEqual({ output: [] })
+    expect(runTerminalCommand('   ', context)).toEqual({ output: [] })
   })
 })

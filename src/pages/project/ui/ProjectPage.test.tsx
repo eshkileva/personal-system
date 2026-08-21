@@ -207,7 +207,7 @@ describe('project routes', () => {
     expect(screen.getByText('> Telegram / прототип')).toBeVisible()
   })
 
-  it('selects the decorative signal for each project variant', async () => {
+  it('keeps Web Experiments preview readable without stacked overlay windows', async () => {
     const webPage = render(
       <MemoryRouter initialEntries={['/projects/web-experiments']}>
         <AppRoutes />
@@ -222,13 +222,18 @@ describe('project routes', () => {
       'aria-hidden',
       'true',
     )
-    expect(webSignal?.querySelector('.project-experiment-windows')).toHaveAttribute(
-      'aria-hidden',
-      'true',
-    )
+    expect(
+      webSignal?.querySelector('.project-experiment-windows'),
+    ).toBeNull()
     expect(
       webSignal?.querySelectorAll('[data-experiment-window]'),
     ).toHaveLength(3)
+    expect(
+      screen.getByRole('button', { name: /эксперимент b/i }),
+    ).toBeVisible()
+    expect(
+      within(webSignal as HTMLElement).getByText(/адаптивная композиция/i),
+    ).toBeVisible()
   })
 
   it('lets the keyboard switch Web Experiments hypotheses', async () => {

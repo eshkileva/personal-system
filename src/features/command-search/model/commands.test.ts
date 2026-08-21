@@ -14,6 +14,7 @@ describe('palette commands', () => {
         'web-experiments',
         'status',
         'diagnostics',
+        'terminal',
       ]),
     )
   })
@@ -32,6 +33,8 @@ describe('palette commands', () => {
         projectPath(project.slug),
       )
     }
+
+    expect(commands.find((command) => command.id === 'terminal')?.href).toBe('/')
   })
 
   it('filters commands by substring, ignoring case', () => {

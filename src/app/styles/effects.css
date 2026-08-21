@@ -268,16 +268,8 @@
     min-height: 330px;
   }
 
-  .field-card:nth-child(2) {
-    margin-top: 90px;
-  }
-
-  .field-card:nth-child(3) {
-    margin-top: -45px;
-  }
-
-  .field-card:nth-child(4) {
-    margin-top: 45px;
+  .field-card:nth-child(even) {
+    margin-top: 2.75rem;
   }
 }
 
@@ -373,11 +365,19 @@
     font: 0.75rem / 1.7 var(--font-mono);
   }
 
+  .project-signal--wave {
+    isolation: isolate;
+    overflow: hidden;
+    padding: 1.1rem 1.15rem 1.2rem;
+  }
+
   .project-wave-field {
     position: absolute;
-    inset: 1rem 0 0;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
     overflow: hidden;
+    opacity: 0.35;
     border: 1px solid var(--color-line);
     background:
       linear-gradient(rgb(22 140 255 / 0.07) 1px, transparent 1px),
@@ -401,47 +401,76 @@
     box-shadow: 0 0 12px rgb(22 140 255 / 0.35);
   }
 
-  .project-experiment-windows {
-    position: absolute;
-    inset: 3.5rem 2rem 2rem 7rem;
-    pointer-events: none;
+  .experiment-deck,
+  .project-terminal,
+  .project-pipeline,
+  .project-signal__caption {
+    position: relative;
+    z-index: 1;
   }
 
-  .project-experiment-window {
-    position: absolute;
-    width: 58%;
-    aspect-ratio: 1.65;
+  .experiment-deck {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .experiment-panel {
+    display: grid;
+    gap: 0.65rem;
+    min-height: 6.5rem;
+    appearance: none;
+    padding: 1rem;
     border: 1px solid var(--color-line-strong);
-    background: rgb(3 13 22 / 0.78);
-    box-shadow: 0 1rem 4rem rgb(0 0 0 / 0.28);
+    background: rgb(3 13 22 / 0.92);
+    color: var(--color-project-meta);
+    font: 0.75rem / 1.4 var(--font-mono);
+    letter-spacing: 0.1em;
+    text-align: left;
+    cursor: pointer;
+    min-width: 0;
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease,
+      color 200ms ease;
   }
 
-  .project-experiment-window:nth-child(2) {
-    top: 3.5rem;
-    left: 4.5rem;
-  }
-
-  .project-experiment-window:nth-child(3) {
-    top: 7rem;
-    left: 9rem;
-  }
-
-  .project-experiment-window span {
-    display: block;
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--color-line);
+  .experiment-panel span {
     color: var(--color-electric);
-    font: 0.75rem var(--font-mono);
-    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
-  .project-experiment-window--motion {
+  .experiment-panel strong {
+    font-weight: 400;
+    color: var(--color-ice);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+  }
+
+  .experiment-panel:hover {
+    border-color: var(--color-electric);
+  }
+
+  .experiment-panel[aria-pressed='true'] {
+    border-color: var(--color-electric);
+    background: rgb(22 140 255 / 0.16);
+    box-shadow: inset 3px 0 0 var(--color-electric);
+  }
+
+  .experiment-panel:focus-visible {
+    outline: 2px solid var(--color-electric);
+    outline-offset: 4px;
+  }
+
+  .experiment-panel--motion {
     animation: experiment-window-state 2.4s ease-in-out infinite;
   }
 }
 
 @media (min-width: 40rem) {
-  .project-pipeline {
+  .project-pipeline,
+  .experiment-deck {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -482,7 +511,8 @@
   .orb::after,
   .orb-glow,
   .field-scan,
-  .project-experiment-window--motion {
+  .project-experiment-window--motion,
+  .experiment-panel--motion {
     animation: none;
   }
 }

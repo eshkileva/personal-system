@@ -12,7 +12,7 @@ export function ExperiencePage() {
       <SectionLabel number="04">ТЕКУЩИЙ ФОКУС</SectionLabel>
       <h1
         aria-label="ТРАЕКТОРИЯ РОСТА"
-        className="mt-8 max-w-6xl font-display text-[clamp(3rem,11vw,9rem)] uppercase leading-[0.84] tracking-[-0.04em]"
+        className="mt-8 max-w-6xl font-display text-[clamp(3rem,11vw,9rem)] uppercase leading-[0.92] tracking-[0.02em]"
       >
         ТРАЕКТОРИЯ
         <br />
@@ -22,11 +22,16 @@ export function ExperiencePage() {
         Направления, в которых я последовательно развиваю практику и системное
         мышление.
       </p>
-      <ol className="mt-16 grid max-w-6xl list-none gap-px bg-line p-0 lg:grid-cols-3">
-        {trajectory.map((item) => (
-          <li key={item.label} className="min-h-56 bg-project p-7">
-            <span className="font-mono text-xs text-meta">{item.label}</span>
-            <p className="mt-12 max-w-sm text-lg leading-relaxed text-now-copy">
+      <ol className="trajectory-path">
+        {trajectory.map((item, index) => (
+          <li className="trajectory-step" key={item.label}>
+            <span className="trajectory-step__index">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <span className="font-mono text-xs tracking-[0.12em] text-meta">
+              {item.label}
+            </span>
+            <p className="mt-10 max-w-sm text-lg leading-relaxed text-now-copy">
               {item.text}
             </p>
           </li>
