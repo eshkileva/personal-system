@@ -8,11 +8,23 @@ export type SeoConfig = {
   ogDescription: string
 }
 
-export const DEFAULT_SITE_ORIGIN = 'https://yeshkileva.dev'
+export const TEST_SITE_ORIGIN = 'http://localhost:5173'
+
+export function getSiteOrigin(): string {
+  if (import.meta.env.VITEST) {
+    return TEST_SITE_ORIGIN
+  }
+
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    return window.location.origin
+  }
+
+  return TEST_SITE_ORIGIN
+}
 
 export function seoFromRoute(
   path: SystemPath,
-  origin: string = DEFAULT_SITE_ORIGIN,
+  origin: string = getSiteOrigin(),
 ): SeoConfig {
   const route = getRouteByPath(path)
   if (!route) {
@@ -34,7 +46,7 @@ export function seoFromProject(
   seoTitle: string,
   seoDescription: string,
   slug: string,
-  origin: string = DEFAULT_SITE_ORIGIN,
+  origin: string = getSiteOrigin(),
 ): SeoConfig {
   return {
     title: seoTitle,

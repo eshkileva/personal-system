@@ -4,8 +4,6 @@ import { seoFromRoute } from '../../config/seo'
 
 let metaGeneration = 0
 
-const INDEX_SEO = seoFromRoute('/')
-
 function upsertNamedMeta(name: string, content: string) {
   let element = document.head.querySelector<HTMLMetaElement>(
     `meta[name="${name}"]`,
@@ -57,7 +55,7 @@ function applySeo(config: SeoConfig) {
 }
 
 function restoreIndexSeo() {
-  applySeo(INDEX_SEO)
+  applySeo(seoFromRoute('/'))
 }
 
 type DocumentMetaProps = {

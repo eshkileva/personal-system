@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { getRouteByPath, projectPath, systemRoutes } from './routes'
 
 describe('system routes', () => {
-  it('exposes the seven system modules in file-tree order', () => {
+  it('exposes the six system modules in file-tree order', () => {
     expect(systemRoutes.map((route) => route.path)).toEqual([
       '/',
       '/profile',
