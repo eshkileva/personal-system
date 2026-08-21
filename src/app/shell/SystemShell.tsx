@@ -1,21 +1,18 @@
-import { NavLink, Outlet } from 'react-router-dom'
-import { systemRoutes } from '../../shared/config/routes'
-
-const navRoutes = systemRoutes.filter((route) => route.path !== '/')
+import { Outlet } from 'react-router-dom'
+import { useSystemBoot } from '../../features/system-boot/model/useSystemBoot'
+import { SystemNav } from '../../widgets/system-nav/ui/SystemNav'
+import { SystemStatus } from '../../widgets/system-status/ui/SystemStatus'
 
 export function SystemShell() {
+  const status = useSystemBoot()
+
   return (
-    <>
-      <nav aria-label="Системная навигация">
-        <ul>
-          {navRoutes.map((route) => (
-            <li key={route.path}>
-              <NavLink to={route.path}>{route.label}</NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <Outlet />
-    </>
+    <div className="system-shell">
+      <SystemNav />
+      <SystemStatus status={status} />
+      <div className="system-shell__content">
+        <Outlet />
+      </div>
+    </div>
   )
 }
