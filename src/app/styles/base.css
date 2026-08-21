@@ -265,6 +265,110 @@
   overflow-wrap: anywhere;
 }
 
+.page-transition {
+  animation: page-enter 280ms ease-out;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.command-palette,
+.system-diagnostics {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  padding: 12vh 1.5rem 1.5rem;
+  background: rgb(2 6 11 / 0.72);
+}
+
+.command-palette {
+  place-items: start center;
+}
+
+.system-diagnostics {
+  place-items: center;
+}
+
+.command-palette__panel,
+.system-diagnostics__pre {
+  width: min(36rem, 100%);
+  border: 1px solid var(--color-line-strong);
+  background: rgb(2 6 11 / 0.96);
+}
+
+.command-palette__title,
+.system-diagnostics__label {
+  margin: 0;
+  padding: 0.85rem 1rem 0;
+  color: var(--color-electric);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.command-palette__input,
+.command-palette__item,
+.command-palette__status {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--color-ice);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.command-palette__input {
+  display: block;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--color-line);
+  outline: none;
+}
+
+.command-palette__list {
+  margin: 0;
+  padding: 0.4rem 0 0.6rem;
+  list-style: none;
+}
+
+.command-palette__item {
+  display: block;
+  padding: 0.65rem 1rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.command-palette__item:hover,
+.command-palette__item:focus-visible {
+  background: rgb(22 140 255 / 0.12);
+  color: var(--color-electric);
+}
+
+.command-palette__status,
+.system-diagnostics__pre {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  color: var(--color-status);
+}
+
+.system-diagnostics__pre {
+  padding: 1rem 1.25rem 1.25rem;
+  color: var(--color-terminal);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
 .index-boot {
   position: absolute;
   inset: 0;
@@ -325,6 +429,10 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .page-transition {
+    animation: none;
   }
 
   *,
