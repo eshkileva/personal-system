@@ -33,6 +33,25 @@
   }
 }
 
+@keyframes experiment-window-state {
+  0%,
+  100% {
+    border-color: var(--color-line-strong);
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 rgb(22 140 255 / 0),
+      0 1rem 4rem rgb(0 0 0 / 0.28);
+  }
+
+  50% {
+    border-color: var(--color-electric);
+    opacity: 0.88;
+    box-shadow:
+      inset 0 0 28px rgb(22 140 255 / 0.14),
+      0 1rem 4rem rgb(0 0 0 / 0.28);
+  }
+}
+
 @layer components {
   .noise {
     position: fixed;
@@ -413,6 +432,10 @@
     font: 0.75rem var(--font-mono);
     letter-spacing: 0.12em;
   }
+
+  .project-experiment-window--motion {
+    animation: experiment-window-state 2.4s ease-in-out infinite;
+  }
 }
 
 @media (min-width: 40rem) {
@@ -456,7 +479,8 @@
   .orb::before,
   .orb::after,
   .orb-glow,
-  .field-scan {
+  .field-scan,
+  .project-experiment-window--motion {
     animation: none;
   }
 }
