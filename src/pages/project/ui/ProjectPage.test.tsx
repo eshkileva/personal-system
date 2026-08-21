@@ -1,5 +1,4 @@
 import {
-  act,
   cleanup,
   fireEvent,
   render,
@@ -11,6 +10,17 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { AppRoutes } from '../../../app/router/AppRoutes'
 
 afterEach(cleanup)
+
+const instanceSectionHeadings = [
+  'Превью',
+  'Обзор',
+  'Роль',
+  'Стек',
+  'Архитектура',
+  'Задачи',
+  'Результат',
+  'GitHub / Demo',
+]
 
 describe('project routes', () => {
   it('renders the localized Job Agent dossier from its slug', () => {
@@ -62,26 +72,7 @@ describe('project routes', () => {
     ).toBeVisible()
   })
 
-  it('exposes chapter state when IntersectionObserver is unavailable', () => {
-    vi.stubGlobal('IntersectionObserver', undefined)
-
-    render(
-      <MemoryRouter initialEntries={['/projects/job-agent']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    )
-
-    const chapterNav = screen.getByRole('navigation', {
-      name: /главы проекта/i,
-    })
-    expect(within(chapterNav).getByRole('link', { name: /01.*идея/i }))
-      .toHaveAttribute('aria-current', 'location')
-    expect(within(chapterNav).getByRole('list')).toHaveClass('grid-cols-2')
-
-    vi.unstubAllGlobals()
-  })
-
-  it('renders the complete dossier structure', () => {
+  it('renders the instance sections in order', () => {
     document.title = 'Юлия Ешкилева — Personal System'
     const { unmount } = render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
@@ -89,16 +80,11 @@ describe('project routes', () => {
       </MemoryRouter>,
     )
 
-    const chapterNav = screen.getByRole('navigation', {
-      name: /главы проекта/i,
-    })
-    expect(chapterNav).toBeVisible()
-    expect(within(chapterNav).getByRole('link', { name: /идея/i }))
-      .toHaveAttribute('aria-current', 'location')
-    expect(screen.getByRole('heading', { name: /проблема/i })).toBeVisible()
-    expect(screen.getByRole('heading', { name: /схема системы/i })).toBeVisible()
-    expect(screen.getByRole('heading', { name: /ключевые решения/i })).toBeVisible()
-    expect(screen.getByRole('heading', { name: /результат/i })).toBeVisible()
+    expect(
+      screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent),
+    ).toEqual(instanceSectionHeadings)
+    expect(screen.getByText('prototype / local')).toBeVisible()
+    expect(screen.queryByRole('link', { name: /github|demo/i })).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: /следующий проект/i })).toHaveAttribute(
       'href',
       '/projects/web-experiments',
@@ -107,6 +93,20 @@ describe('project routes', () => {
 
     unmount()
     expect(document.title).toBe('Юлия Ешкилева — Personal System')
+  })
+
+  it('keeps the preview visual decorative besides heading and label', () => {
+    render(
+      <MemoryRouter initialEntries={['/projects/job-agent']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByRole('heading', { name: 'Превью' })).toBeVisible()
+    expect(screen.getByText('Конвейер вакансий')).toBeVisible()
+    expect(
+      screen.getByRole('heading', { name: 'Превью' }).closest('section'),
+    ).toContainElement(screen.getByText('Конвейер вакансий'))
   })
 
   it('opens the projects index when leaving a dossier', async () => {
@@ -125,6 +125,7 @@ describe('project routes', () => {
     expect(
       await screen.findByRole('heading', { name: /системные инстансы/i }),
     ).toBeVisible()
+    expect(screen.getAllByText(/открыть инстанс/i)).toHaveLength(2)
     expect(document.title).toBe(
       'Проекты — Personal System | Юлия Ешкилева',
     )
@@ -229,53 +230,24 @@ describe('project routes', () => {
     ).toHaveLength(3)
   })
 
-  it('tracks the active chapter with one observer and disconnects it', () => {
-    let observerCallback: IntersectionObserverCallback | undefined
-    const observe = vi.fn()
-    const disconnect = vi.fn()
-    const observer = vi.fn(function (
-      this: IntersectionObserver,
-      callback: IntersectionObserverCallback,
-      options?: IntersectionObserverInit,
-    ) {
-      observerCallback = callback
-      expect(options?.rootMargin).toBe('-25% 0px -60%')
-      return { observe, disconnect }
-    })
-    vi.stubGlobal('IntersectionObserver', observer)
-
-    const { unmount } = render(
+  it('does not render the old chapter dossier UI', () => {
+    render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
       </MemoryRouter>,
     )
 
-    expect(observer).toHaveBeenCalledTimes(1)
-    expect(observe).toHaveBeenCalledTimes(4)
-
-    const systemSection = document.getElementById('system')
-    expect(systemSection).not.toBeNull()
-    if (!systemSection) throw new Error('Expected the system chapter to render')
-    act(() => {
-      observerCallback?.(
-        [
-          {
-            isIntersecting: true,
-            target: systemSection,
-          } as unknown as IntersectionObserverEntry,
-        ],
-        {} as IntersectionObserver,
-      )
-    })
-
-    const chapterNav = screen.getByRole('navigation', {
-      name: /главы проекта/i,
-    })
-    expect(within(chapterNav).getByRole('link', { name: /система/i }))
-      .toHaveAttribute('aria-current', 'location')
-
-    unmount()
-    expect(disconnect).toHaveBeenCalledTimes(1)
-    vi.unstubAllGlobals()
+    expect(
+      screen.queryByRole('navigation', { name: /главы проекта/i }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: /проблема/i }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: /схема системы/i }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: /ключевые решения/i }),
+    ).not.toBeInTheDocument()
   })
 })

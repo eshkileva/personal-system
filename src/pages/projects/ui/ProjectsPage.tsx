@@ -37,7 +37,7 @@ export function ProjectsPage() {
                 {project.thesis}
               </p>
               <span className="mt-8 block font-mono text-xs uppercase tracking-widest text-electric">
-                ОТКРЫТЬ ДОСЬЕ <span aria-hidden="true">↗</span>
+                ОТКРЫТЬ ИНСТАНС <span aria-hidden="true">↗</span>
               </span>
             </Link>
           </li>

@@ -32,6 +32,16 @@ export type Project = {
   tags: string
   variant: ProjectVariant
   seoTitle: string
+  preview: { kind: 'svg' | 'static'; label: string }
+  role: string
+  overview: string[]
+  architecture: string[]
+  challenges: string[]
+  results: string[]
+  links: {
+    github: null
+    demo: null
+  }
   chapters: ProjectChapter[]
   systemNodes: SystemNode[]
   decisions: ProjectDecision[]

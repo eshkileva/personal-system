@@ -78,6 +78,12 @@ describe('project records', () => {
       /(?:работал(?:а)?\s+в|клиент[\p{L}\p{M}]*|заказчик[\p{L}\p{M}]*|отзыв[\p{L}\p{M}]*|\bsenior\b|(?<!не прош[её]л\s)(?<!без\s)коммерческ[\p{L}\p{M}]*|(?<!не\s)запущен[\p{L}\p{M}]*[^.!?]{0,48}\bprod\w*|пользовател[\p{L}\p{M}]*|увеличил(?:а)?[\p{L}\p{M}]*|повысил(?:а)?[\p{L}\p{M}]*|(?<!не)подтвержд[\p{L}\p{M}]*\s+результат[\p{L}\p{M}]*(?![^.!?]*(?:пока\s+нет|не\s+(?:было|получено|подтверждено))))/iu
     const narrative = projects.flatMap((project) => [
       project.thesis,
+      project.role,
+      project.preview.label,
+      ...project.overview,
+      ...project.architecture,
+      ...project.challenges,
+      ...project.results,
       ...project.chapters.flatMap((chapter) => [
         chapter.heading,
         ...chapter.body,
@@ -174,6 +180,27 @@ describe('project records', () => {
     expect(dossier).toMatch(/reduced-motion/)
     expect(dossier).toMatch(/переиспольз/i)
     expect(webExperiments?.status).toBe('in progress')
+  })
+
+  it('exposes the eight instance sections without invented links', () => {
+    expect(projects).toHaveLength(2)
+
+    for (const project of projects) {
+      expect(project.preview.kind).toBe('svg')
+      expect(project.preview.label.trim().length).toBeGreaterThan(0)
+      expect(project.role).toMatch(/автор личного (прототипа|эксперимента)/i)
+      expect(project.overview.length).toBeGreaterThan(0)
+      expect(project.stack.length).toBeGreaterThan(0)
+      expect(project.architecture.length).toBeGreaterThan(0)
+      expect(project.challenges.length).toBeGreaterThan(0)
+      expect(project.results.length).toBeGreaterThan(0)
+      expect(project.links.github).toBeNull()
+      expect(project.links.demo).toBeNull()
+      expect(project.links).toEqual({ github: null, demo: null })
+    }
+
+    expect(projects[0].role).toMatch(/прототипа/i)
+    expect(projects[1].role).toMatch(/эксперимента/i)
   })
 
   it('uses natural Russian for message and keyboard accessibility states', () => {
