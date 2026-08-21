@@ -88,7 +88,15 @@ describe('project records', () => {
         chapter.heading,
         ...chapter.body,
       ]),
-      ...project.systemNodes.flatMap((node) => [node.label, node.detail]),
+      ...project.systemNodes.flatMap((node) => [
+        node.label,
+        node.detail,
+        node.log,
+      ]),
+      ...(project.experiments ?? []).flatMap((experiment) => [
+        experiment.title,
+        experiment.hypothesis,
+      ]),
       ...project.decisions.flatMap((decision) => [
         decision.title,
         decision.rationale,

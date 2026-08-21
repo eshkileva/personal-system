@@ -125,7 +125,7 @@ describe('CommandPalette', () => {
     expect(document.querySelector('audio')).toBeNull()
   })
 
-  it('opens a preformatted diagnostics terminal from the palette', () => {
+  it('opens an interactive terminal from the palette, not diagnostics', async () => {
     renderShell()
     const dialog = openPalette()
 
@@ -134,9 +134,38 @@ describe('CommandPalette', () => {
     })
     fireEvent.click(within(dialog).getByRole('button', { name: /terminal/i }))
 
-    const terminal = screen.getByRole('dialog', { name: /terminal|терминал/i })
-    expect(terminal.querySelector('pre')).not.toBeNull()
-    expect(terminal).toHaveTextContent(/reduced-motion/i)
+    const terminal = await screen.findByRole('dialog', { name: /terminal|терминал/i })
+    expect(
+      within(terminal).getByRole('textbox', { name: /команда терминала/i }),
+    ).toBeVisible()
     expect(terminal).not.toHaveTextContent(/cpu|ram/i)
+  })
+
+  it('closes the terminal on Escape and restores focus to the opener', async () => {
+    renderShell()
+
+    const opener = document.createElement('button')
+    opener.textContent = 'focus seed'
+    document.body.append(opener)
+    opener.focus()
+
+    const dialog = openPalette()
+    fireEvent.change(within(dialog).getByRole('searchbox'), {
+      target: { value: 'terminal' },
+    })
+    fireEvent.click(within(dialog).getByRole('button', { name: /terminal/i }))
+
+    const terminal = await screen.findByRole('dialog', { name: /terminal|терминал/i })
+    expect(
+      within(terminal).getByRole('textbox', { name: /команда терминала/i }),
+    ).toHaveFocus()
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(
+      screen.queryByRole('dialog', { name: /terminal|терминал/i }),
+    ).not.toBeInTheDocument()
+    expect(opener).toHaveFocus()
+
+    opener.remove()
   })
 })

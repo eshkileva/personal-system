@@ -51,11 +51,7 @@ export function ProjectViewer({ project, previewVisual }: ProjectViewerProps) {
     Архитектура: <CopyList items={project.architecture} />,
     Задачи: <CopyList items={project.challenges} />,
     Результат: <CopyList items={project.results} />,
-    'GitHub / Demo': (
-      <p className="font-mono text-sm tracking-[0.08em] text-code">
-        prototype / local
-      </p>
-    ),
+    'GitHub / Demo': <ProjectLinks links={project.links} />,
   }
 
   return (
@@ -169,6 +165,43 @@ function InstanceSection({
       </h2>
       <div className="relative z-1 mt-8">{children}</div>
     </section>
+  )
+}
+
+function ProjectLinks({ links }: { links: Project['links'] }) {
+  const { github, demo } = links
+
+  if (!github && !demo) {
+    return (
+      <p className="font-mono text-sm tracking-[0.08em] text-code">
+        prototype / local
+      </p>
+    )
+  }
+
+  return (
+    <ul className="flex flex-wrap gap-4 p-0 font-mono text-sm tracking-[0.08em]">
+      {github ? (
+        <li>
+          <a
+            href={github}
+            className="text-electric focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
+          >
+            GitHub
+          </a>
+        </li>
+      ) : null}
+      {demo ? (
+        <li>
+          <a
+            href={demo}
+            className="text-electric focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
+          >
+            Demo
+          </a>
+        </li>
+      ) : null}
+    </ul>
   )
 }
 

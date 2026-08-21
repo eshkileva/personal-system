@@ -103,13 +103,13 @@ describe('useProjectMotion', () => {
     )
 
     matchMediaState.activate()
-    expect(addEventListener).toHaveBeenCalledWith(
+    expect(addEventListener).not.toHaveBeenCalledWith(
       'pointermove',
       expect.any(Function),
     )
 
     matchMediaState.deactivate()
-    expect(removeEventListener).toHaveBeenCalledWith(
+    expect(removeEventListener).not.toHaveBeenCalledWith(
       'pointermove',
       expect.any(Function),
     )

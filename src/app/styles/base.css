@@ -355,6 +355,79 @@
   white-space: pre-wrap;
 }
 
+.system-terminal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 12vh 1.5rem 1.5rem;
+  background: rgb(2 6 11 / 0.72);
+}
+
+.system-terminal__label,
+.system-terminal__pre,
+.system-terminal__prompt,
+.system-terminal__prompt input {
+  width: min(42rem, 100%);
+  color: var(--color-terminal);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.system-terminal__pre {
+  min-height: 12rem;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-line-strong);
+  background: rgb(2 6 11 / 0.96);
+  white-space: pre-wrap;
+}
+
+.system-terminal__prompt {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  color: var(--color-electric);
+}
+
+.system-terminal__prompt input {
+  min-height: 2.75rem;
+  border: 1px solid var(--color-line-strong);
+  background: rgb(2 6 11 / 0.96);
+  color: var(--color-ice);
+  padding: 0.6rem 0.85rem;
+}
+
+.system-terminal__xterm:empty {
+  display: none;
+}
+
+.system-terminal__xterm:not(:empty) {
+  width: min(42rem, 100%);
+  min-height: 12rem;
+  border: 1px solid var(--color-line-strong);
+  background: rgb(2 6 11 / 0.96);
+}
+
+.system-terminal__xterm:not(:empty) + .system-terminal__pre {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .index-boot {
   position: absolute;
   inset: 0;

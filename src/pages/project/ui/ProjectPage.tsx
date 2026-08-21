@@ -35,9 +35,9 @@ function ProjectInstance({ project }: { project: Project }) {
         project={project}
         previewVisual={
           project.variant === 'terminal' ? (
-            <JobAgentSignal />
+            <JobAgentSignal nodes={project.systemNodes} />
           ) : (
-            <WebExperimentsSignal />
+            <WebExperimentsSignal experiments={project.experiments ?? []} />
           )
         }
       />

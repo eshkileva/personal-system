@@ -7,6 +7,7 @@ import {
   type PaletteCommand,
 } from '../../../features/command-search/model/commands'
 import type { SystemBootState } from '../../../features/system-boot/model/useSystemBoot'
+import { SystemTerminal } from '../../terminal/ui/SystemTerminal'
 
 const KONAMI = [
   'ArrowUp',
@@ -57,6 +58,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
   const [overlay, setOverlay] = useState<Overlay | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const lastFocusRef = useRef<HTMLElement | null>(null)
+  const overlayOpenerRef = useRef<HTMLElement | null>(null)
   const konamiIndex = useRef(0)
   const wasOpen = useRef(false)
   const commands = useMemo(() => getPaletteCommands(), [])
@@ -82,6 +84,21 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
     }
   }, [open])
 
+  function rememberOverlayOpener() {
+    overlayOpenerRef.current =
+      lastFocusRef.current ??
+      (document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null)
+  }
+
+  function closeOverlay() {
+    const opener = overlayOpenerRef.current
+    setOverlay(null)
+    opener?.focus()
+    overlayOpenerRef.current = null
+  }
+
   useLayoutEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (
@@ -96,10 +113,13 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
       }
 
       if (event.key === 'Escape') {
+        if (overlay) {
+          closeOverlay()
+          return
+        }
         setOpen(false)
         setQuery('')
         setStatusOpen(false)
-        setOverlay(null)
         return
       }
 
@@ -114,6 +134,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
         konamiIndex.current += 1
         if (konamiIndex.current === KONAMI.length) {
           konamiIndex.current = 0
+          rememberOverlayOpener()
           setOpen(false)
           setOverlay('diagnostics')
         }
@@ -125,7 +146,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
 
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
+  }, [overlay])
 
   function runCommand(command: PaletteCommand) {
     if (command.action === 'status') {
@@ -134,6 +155,7 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
     }
 
     if (command.action === 'diagnostics' || command.action === 'terminal') {
+      rememberOverlayOpener()
       setOpen(false)
       setQuery('')
       setStatusOpen(false)
@@ -205,16 +227,19 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
         </div>
       ) : null}
 
-      {overlay ? (
+      {overlay === 'terminal' ? (
+        <SystemTerminal
+          bootStatus={bootStatus}
+          onClose={closeOverlay}
+        />
+      ) : overlay === 'diagnostics' ? (
         <div
-          aria-label={overlay === 'terminal' ? 'Терминал' : 'Диагностика'}
+          aria-label="Диагностика"
           aria-modal="true"
           className="system-diagnostics"
           role="dialog"
         >
-          <p className="system-diagnostics__label">
-            {overlay === 'terminal' ? 'terminal' : 'diagnostics'}
-          </p>
+          <p className="system-diagnostics__label">diagnostics</p>
           <pre className="system-diagnostics__pre">{report}</pre>
         </div>
       ) : null}
