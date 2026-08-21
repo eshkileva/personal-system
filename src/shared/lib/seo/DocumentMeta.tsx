@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import type { SeoConfig } from '../../config/seo'
 import { seoFromRoute } from '../../config/seo'
 
@@ -63,7 +63,7 @@ type DocumentMetaProps = {
 }
 
 export function DocumentMeta({ config }: DocumentMetaProps) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const generation = ++metaGeneration
     applySeo(config)
 

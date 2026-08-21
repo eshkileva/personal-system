@@ -91,7 +91,9 @@ describe('project routes', () => {
       'href',
       '/projects/web-experiments',
     )
-    expect(document.title).toBe('Агент поиска работы — Досье проекта')
+    await waitFor(() => {
+      expect(document.title).toBe('Агент поиска работы — Досье проекта')
+    })
 
     unmount()
     expect(document.title).toBe('Юлия Ешкилева — Personal System')
@@ -122,7 +124,9 @@ describe('project routes', () => {
     expect(
       await screen.findByRole('heading', { name: /агент поиска работы/i }),
     ).toBeVisible()
-    expect(document.title).toBe('Агент поиска работы — Досье проекта')
+    await waitFor(() => {
+      expect(document.title).toBe('Агент поиска работы — Досье проекта')
+    })
     fireEvent.click(
       screen.getByRole('link', { name: /к списку проектов/i }),
     )

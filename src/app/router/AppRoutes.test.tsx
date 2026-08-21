@@ -1,4 +1,4 @@
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import { systemRoutes } from '../../shared/config/routes'
@@ -52,7 +52,9 @@ describe('AppRoutes', () => {
       ).toHaveAttribute('href', route.path)
     }
 
-    expect(document.title).toBe('Юлия Ешкилева — Personal System')
+    await waitFor(() => {
+      expect(document.title).toBe('Юлия Ешкилева — Personal System')
+    })
   })
 
   it('shows a short index boot once per session', async () => {
@@ -90,9 +92,11 @@ describe('AppRoutes', () => {
       }),
     ).toBeVisible()
     expect(screen.getByText('FRONTEND-РАЗРАБОТЧИК')).toBeVisible()
-    expect(document.title).toBe(
-      'Профиль — Юлия Ешкилева | Personal System',
-    )
+    await waitFor(() => {
+      expect(document.title).toBe(
+        'Профиль — Юлия Ешкилева | Personal System',
+      )
+    })
   })
 
   it('lists projects as links to their instance routes', async () => {
