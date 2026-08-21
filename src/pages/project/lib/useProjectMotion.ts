@@ -41,19 +41,6 @@ export function useProjectMotion(
           },
         )
 
-        gsap.from('[data-diagram-node]', {
-          y: 24,
-          opacity: 0,
-          duration: 0.55,
-          stagger: 0.1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '[data-system-diagram]',
-            start: 'top 78%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-
         gsap.from('[data-pipeline-node], [data-experiment-window]', {
           scale: 0.88,
           opacity: 0,
@@ -68,24 +55,6 @@ export function useProjectMotion(
           duration: 0.3,
           stagger: 0.16,
           ease: 'power1.out',
-        })
-
-        gsap.utils.toArray<HTMLElement>('[data-chapter-scan]').forEach((scan) => {
-          gsap.fromTo(
-            scan,
-            { xPercent: -110, opacity: 0 },
-            {
-              xPercent: 110,
-              opacity: 1,
-              duration: 0.75,
-              ease: 'power2.inOut',
-              scrollTrigger: {
-                trigger: scan.parentElement,
-                start: 'top 72%',
-                toggleActions: 'play none none reset',
-              },
-            },
-          )
         })
 
         const signal = root.querySelector<HTMLElement>('[data-project-signal]')
