@@ -7,6 +7,7 @@ import {
   type PaletteCommand,
 } from '../../../features/command-search/model/commands'
 import type { SystemBootState } from '../../../features/system-boot/model/useSystemBoot'
+import { SystemTerminal } from '../../terminal/ui/SystemTerminal'
 
 const KONAMI = [
   'ArrowUp',
@@ -205,16 +206,19 @@ export function CommandPalette({ bootStatus }: CommandPaletteProps) {
         </div>
       ) : null}
 
-      {overlay ? (
+      {overlay === 'terminal' ? (
+        <SystemTerminal
+          bootStatus={bootStatus}
+          onClose={() => setOverlay(null)}
+        />
+      ) : overlay === 'diagnostics' ? (
         <div
-          aria-label={overlay === 'terminal' ? 'Терминал' : 'Диагностика'}
+          aria-label="Диагностика"
           aria-modal="true"
           className="system-diagnostics"
           role="dialog"
         >
-          <p className="system-diagnostics__label">
-            {overlay === 'terminal' ? 'terminal' : 'diagnostics'}
-          </p>
+          <p className="system-diagnostics__label">diagnostics</p>
           <pre className="system-diagnostics__pre">{report}</pre>
         </div>
       ) : null}
