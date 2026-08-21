@@ -278,42 +278,61 @@
 
 @layer components {
   .project-signal {
-    position: absolute;
-    z-index: 0;
-    top: 7rem;
-    right: 3vw;
-    width: min(42vw, 42rem);
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 42rem;
     min-height: 22rem;
-    pointer-events: none;
-    opacity: 0.42;
-    will-change: transform;
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .project-signal__caption {
+    margin: 0 0 1rem;
+    color: var(--color-label);
+    font: 0.75rem / 1.6 var(--font-mono);
+    letter-spacing: 0.08em;
   }
 
   .project-pipeline {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
 
   .project-pipeline__node {
     position: relative;
     display: grid;
+    width: 100%;
     min-height: 5rem;
+    appearance: none;
     place-items: center;
+    padding: 1.5rem 0.75rem 0.75rem;
     border: 1px solid var(--color-line-strong);
     background: rgb(3 13 22 / 0.82);
     color: var(--color-project-meta);
     font: 0.75rem / 1.4 var(--font-mono);
     letter-spacing: 0.12em;
+    cursor: pointer;
+    transition:
+      border-color 200ms ease,
+      color 200ms ease,
+      background-color 200ms ease;
   }
 
-  .project-pipeline__node:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: -1rem;
-    width: 1rem;
-    border-top: 1px solid var(--color-signal);
+  .project-pipeline__node:hover {
+    border-color: var(--color-electric);
+  }
+
+  .project-pipeline__node[aria-pressed='true'] {
+    border-color: var(--color-electric);
+    background: rgb(22 140 255 / 0.12);
+    color: var(--color-ice);
+  }
+
+  .project-pipeline__node:focus-visible {
+    outline: 2px solid var(--color-electric);
+    outline-offset: 4px;
   }
 
   .project-pipeline__node span {
@@ -326,8 +345,8 @@
   .project-terminal {
     display: grid;
     gap: 0.45rem;
-    width: 72%;
-    margin: 2rem 0 0 auto;
+    width: 100%;
+    margin: 2rem 0 0;
     padding: 1.25rem;
     border: 1px solid var(--color-line);
     background: rgb(3 13 22 / 0.9);
@@ -396,6 +415,27 @@
   }
 }
 
+@media (min-width: 40rem) {
+  .project-pipeline {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .project-pipeline {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .project-pipeline__node:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -1rem;
+    width: 1rem;
+    border-top: 1px solid var(--color-signal);
+  }
+}
+
 @media (min-width: 80rem) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   ::view-transition-old(project-card-job-agent),
   ::view-transition-new(project-card-job-agent),
@@ -403,12 +443,6 @@
   ::view-transition-new(project-card-web-experiments) {
     animation-duration: 420ms;
     animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  }
-}
-
-@media (max-width: 79.999rem) {
-  .project-signal {
-    display: none;
   }
 }
 

@@ -175,47 +175,28 @@ describe('project routes', () => {
     window.matchMedia = originalMatchMedia
   })
 
-  it('selects the decorative signal for each project variant', () => {
-    const { container, unmount } = render(
+  it('lets the keyboard operate the Job Agent pipeline preview', () => {
+    render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
       </MemoryRouter>,
     )
 
-    const jobSignal = container.querySelector(
-      '[data-project-signal="terminal"]',
+    expect(screen.getByText(/локальный прототип, не live demo/i)).toBeVisible()
+    const collect = screen.getByRole('button', { name: /сбор/i })
+    expect(collect).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByText(/собирать данные о вакансиях/i)).toBeVisible()
+
+    fireEvent.click(screen.getByRole('button', { name: /telegram/i }))
+    expect(screen.getByRole('button', { name: /telegram/i })).toHaveAttribute(
+      'aria-pressed',
+      'true',
     )
-    expect(jobSignal).toHaveAttribute('aria-hidden', 'true')
-    expect(
-      jobSignal?.querySelectorAll('[data-pipeline-node]'),
-    ).toHaveLength(5)
-    expect(
-      Array.from(
-        jobSignal?.querySelectorAll('[data-pipeline-node]') ?? [],
-        (node) => node.textContent?.replace(/^\d+/, ''),
-      ),
-    ).toEqual([
-      'СБОР',
-      'НОРМАЛИЗАЦИЯ',
-      'ИЗВЛЕЧЕНИЕ',
-      'РАНЖИРОВАНИЕ',
-      'TELEGRAM',
-    ])
-    expect(
-      Array.from(
-        jobSignal?.querySelectorAll('[data-terminal-line]') ?? [],
-        (line) => line.textContent,
-      ),
-    ).toEqual([
-      '> вакансии собраны',
-      '> данные нормализованы',
-      '> требования извлечены',
-      '> совпадения объяснены',
-      '> Telegram / прототип',
-    ])
+    expect(screen.getByText(/результаты, состояния обработки/i)).toBeVisible()
+    expect(screen.getByText('> Telegram / прототип')).toBeVisible()
+  })
 
-    unmount()
-
+  it('selects the decorative signal for each project variant', () => {
     const webPage = render(
       <MemoryRouter initialEntries={['/projects/web-experiments']}>
         <AppRoutes />

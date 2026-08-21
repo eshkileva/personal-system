@@ -13,6 +13,13 @@ export type SystemNode = {
   id: string
   label: string
   detail: string
+  log: string
+}
+
+export type ProjectExperiment = {
+  id: 'A' | 'B' | 'C'
+  title: string
+  hypothesis: string
 }
 
 export type ProjectDecision = {
@@ -39,11 +46,12 @@ export type Project = {
   challenges: string[]
   results: string[]
   links: {
-    github: null
-    demo: null
+    github: string | null
+    demo: string | null
   }
   chapters: ProjectChapter[]
   systemNodes: SystemNode[]
+  experiments?: ProjectExperiment[]
   decisions: ProjectDecision[]
   outcome: {
     summary: string
