@@ -1,6 +1,5 @@
 import { lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { ProjectPage } from '../../pages/project/ui/ProjectPage'
 import { SystemShell } from '../shell/SystemShell'
 
 const IndexPage = lazy(() =>
@@ -16,6 +15,11 @@ const ProfilePage = lazy(() =>
 const ProjectsPage = lazy(() =>
   import('../../pages/projects/ui/ProjectsPage').then((module) => ({
     default: module.ProjectsPage,
+  })),
+)
+const ProjectPage = lazy(() =>
+  import('../../pages/project/ui/ProjectPage').then((module) => ({
+    default: module.ProjectPage,
   })),
 )
 const StackPage = lazy(() =>

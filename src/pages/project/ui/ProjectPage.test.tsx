@@ -3,6 +3,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
   within,
 } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -23,14 +24,14 @@ const instanceSectionHeadings = [
 ]
 
 describe('project routes', () => {
-  it('renders the localized Job Agent dossier from its slug', () => {
+  it('renders the localized Job Agent dossier from its slug', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
       </MemoryRouter>,
     )
     expect(
-      screen.getByRole('heading', { name: /агент поиска работы/i }),
+      await screen.findByRole('heading', { name: /агент поиска работы/i }),
     ).toBeVisible()
     expect(screen.getByText('ПРОТОТИП', { selector: 'dd' })).toBeVisible()
     expect(
@@ -40,7 +41,7 @@ describe('project routes', () => {
     ).toBeVisible()
   })
 
-  it('renders the in-progress Web Experiments positioning', () => {
+  it('renders the in-progress Web Experiments positioning', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/web-experiments']}>
         <AppRoutes />
@@ -48,7 +49,7 @@ describe('project routes', () => {
     )
 
     expect(
-      screen.getByRole('heading', { name: /веб эксперименты/i }),
+      await screen.findByRole('heading', { name: /веб эксперименты/i }),
     ).toBeVisible()
     expect(screen.getByText('В РАБОТЕ', { selector: 'dd' })).toBeVisible()
     expect(
@@ -58,13 +59,13 @@ describe('project routes', () => {
     ).toBeVisible()
   })
 
-  it('renders a useful fallback for an unknown slug', () => {
+  it('renders a useful fallback for an unknown slug', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/unknown']}>
         <AppRoutes />
       </MemoryRouter>,
     )
-    expect(screen.getByText(/проект не найден/i)).toBeVisible()
+    expect(await screen.findByText(/проект не найден/i)).toBeVisible()
     const backLink = screen.getByRole('link', { name: /к списку проектов/i })
     expect(backLink).toHaveAttribute('href', '/projects')
     expect(
@@ -72,7 +73,7 @@ describe('project routes', () => {
     ).toBeVisible()
   })
 
-  it('renders the instance sections in order', () => {
+  it('renders the instance sections in order', async () => {
     document.title = 'Юлия Ешкилева — Personal System'
     const { unmount } = render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
@@ -80,6 +81,7 @@ describe('project routes', () => {
       </MemoryRouter>,
     )
 
+    await screen.findByRole('heading', { name: 'Превью' })
     expect(
       screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent),
     ).toEqual(instanceSectionHeadings)
@@ -95,14 +97,14 @@ describe('project routes', () => {
     expect(document.title).toBe('Юлия Ешкилева — Personal System')
   })
 
-  it('keeps the preview visual decorative besides heading and label', () => {
+  it('keeps the preview visual decorative besides heading and label', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { name: 'Превью' })).toBeVisible()
+    expect(await screen.findByRole('heading', { name: 'Превью' })).toBeVisible()
     expect(screen.getByText('Конвейер вакансий')).toBeVisible()
     expect(
       screen.getByRole('heading', { name: 'Превью' }).closest('section'),
@@ -117,6 +119,9 @@ describe('project routes', () => {
       </MemoryRouter>,
     )
 
+    expect(
+      await screen.findByRole('heading', { name: /агент поиска работы/i }),
+    ).toBeVisible()
     expect(document.title).toBe('Агент поиска работы — Досье проекта')
     fireEvent.click(
       screen.getByRole('link', { name: /к списку проектов/i }),
@@ -126,12 +131,14 @@ describe('project routes', () => {
       await screen.findByRole('heading', { name: /системные инстансы/i }),
     ).toBeVisible()
     expect(screen.getAllByText(/открыть инстанс/i)).toHaveLength(2)
-    expect(document.title).toBe(
-      'Проекты — Personal System | Юлия Ешкилева',
-    )
+    await waitFor(() => {
+      expect(document.title).toBe(
+        'Проекты — Personal System | Юлия Ешкилева',
+      )
+    })
   })
 
-  it('does not hide dossier content before animation', () => {
+  it('does not hide dossier content before animation', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/web-experiments']}>
         <AppRoutes />
@@ -139,12 +146,12 @@ describe('project routes', () => {
     )
 
     expect(
-      screen.getByRole('heading', { name: /веб эксперименты/i }),
+      await screen.findByRole('heading', { name: /веб эксперименты/i }),
     ).toBeVisible()
     expect(screen.getByRole('heading', { name: /результат/i })).toBeVisible()
   })
 
-  it('keeps dossier content visible when reduced motion is requested', () => {
+  it('keeps dossier content visible when reduced motion is requested', async () => {
     const matchMedia = vi.fn((query: string) => ({
       matches: query === '(prefers-reduced-motion: reduce)',
       media: query,
@@ -168,21 +175,21 @@ describe('project routes', () => {
       '(min-width: 1280px) and (pointer: fine) and (prefers-reduced-motion: no-preference)',
     )
     expect(
-      screen.getByRole('heading', { name: /веб эксперименты/i }),
+      await screen.findByRole('heading', { name: /веб эксперименты/i }),
     ).toBeVisible()
     expect(screen.getByRole('heading', { name: /результат/i })).toBeVisible()
 
     window.matchMedia = originalMatchMedia
   })
 
-  it('lets the keyboard operate the Job Agent pipeline preview', () => {
+  it('lets the keyboard operate the Job Agent pipeline preview', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
       </MemoryRouter>,
     )
 
-    expect(screen.getByText(/локальный прототип, не live demo/i)).toBeVisible()
+    expect(await screen.findByText(/локальный прототип, не live demo/i)).toBeVisible()
     const collect = screen.getByRole('button', { name: /сбор/i })
     expect(collect).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText(/собирать данные о вакансиях/i)).toBeVisible()
@@ -196,12 +203,13 @@ describe('project routes', () => {
     expect(screen.getByText('> Telegram / прототип')).toBeVisible()
   })
 
-  it('selects the decorative signal for each project variant', () => {
+  it('selects the decorative signal for each project variant', async () => {
     const webPage = render(
       <MemoryRouter initialEntries={['/projects/web-experiments']}>
         <AppRoutes />
       </MemoryRouter>,
     )
+    await screen.findByRole('heading', { name: /веб эксперименты/i })
     const webSignal = webPage.container.querySelector(
       '[data-project-signal="wave"]',
     )
@@ -211,14 +219,14 @@ describe('project routes', () => {
     ).toHaveLength(3)
   })
 
-  it('lets the keyboard switch Web Experiments hypotheses', () => {
+  it('lets the keyboard switch Web Experiments hypotheses', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/web-experiments']}>
         <AppRoutes />
       </MemoryRouter>,
     )
 
-    expect(screen.getByText(/локальный прототип, не live demo/i)).toBeVisible()
+    expect(await screen.findByText(/локальный прототип, не live demo/i)).toBeVisible()
     fireEvent.click(screen.getByRole('button', { name: /эксперимент b/i }))
     expect(screen.getByRole('button', { name: /эксперимент b/i })).toHaveAttribute(
       'aria-pressed',
@@ -231,13 +239,14 @@ describe('project routes', () => {
     ).toBeVisible()
   })
 
-  it('does not render the old chapter dossier UI', () => {
+  it('does not render the old chapter dossier UI', async () => {
     render(
       <MemoryRouter initialEntries={['/projects/job-agent']}>
         <AppRoutes />
       </MemoryRouter>,
     )
 
+    await screen.findByRole('heading', { name: /агент поиска работы/i })
     expect(
       screen.queryByRole('navigation', { name: /главы проекта/i }),
     ).not.toBeInTheDocument()
