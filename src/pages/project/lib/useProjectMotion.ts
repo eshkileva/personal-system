@@ -41,8 +41,7 @@ export function useProjectMotion(
           },
         )
 
-        gsap.from('[data-pipeline-node], [data-experiment-window]', {
-          scale: 0.88,
+        gsap.from('[data-experiment-window]', {
           opacity: 0,
           duration: 0.5,
           stagger: 0.09,
@@ -56,25 +55,6 @@ export function useProjectMotion(
           stagger: 0.16,
           ease: 'power1.out',
         })
-
-        const signal = root.querySelector<HTMLElement>('[data-project-signal]')
-        if (!signal) return
-
-        const moveX = gsap.quickTo(signal, 'x', {
-          duration: 0.45,
-          ease: 'power2.out',
-        })
-        const moveY = gsap.quickTo(signal, 'y', {
-          duration: 0.45,
-          ease: 'power2.out',
-        })
-        const onPointerMove = (event: PointerEvent) => {
-          moveX((event.clientX / window.innerWidth - 0.5) * 18)
-          moveY((event.clientY / window.innerHeight - 0.5) * 18)
-        }
-
-        root.addEventListener('pointermove', onPointerMove)
-        return () => root.removeEventListener('pointermove', onPointerMove)
       }, root)
 
       return () => context.revert()
