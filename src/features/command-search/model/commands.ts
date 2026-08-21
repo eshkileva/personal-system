@@ -1,7 +1,7 @@
 import { projects } from '../../../entities/project/model/projects'
 import { projectPath, systemRoutes } from '../../../shared/config/routes'
 
-export type PaletteAction = 'status' | 'diagnostics' | 'terminal'
+export type PaletteAction = 'status' | 'diagnostics'
 
 export type PaletteCommand = {
   id: string
@@ -42,8 +42,8 @@ export function getPaletteCommands(): PaletteCommand[] {
     {
       id: 'terminal',
       label: 'terminal',
-      keywords: 'terminal console',
-      action: 'terminal',
+      keywords: 'terminal console xterm',
+      href: '/',
     },
   ]
 

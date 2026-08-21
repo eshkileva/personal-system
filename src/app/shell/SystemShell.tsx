@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { PageTransition } from '../../features/page-transition/ui/PageTransition'
+import { useSessionJournal } from '../../features/session-log/model/useSessionLog'
 import { useSystemBoot } from '../../features/system-boot/model/useSystemBoot'
 import { CommandPalette } from '../../widgets/command-palette/ui/CommandPalette'
 import { SystemNav } from '../../widgets/system-nav/ui/SystemNav'
@@ -16,6 +17,8 @@ function RouteFallback() {
 
 export function SystemShell() {
   const status = useSystemBoot()
+  const { pathname } = useLocation()
+  useSessionJournal(pathname, status)
 
   return (
     <div className="system-shell">

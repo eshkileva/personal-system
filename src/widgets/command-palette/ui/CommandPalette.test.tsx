@@ -46,6 +46,7 @@ describe('CommandPalette', () => {
 
     const dialog = openPalette()
     expect(dialog).toHaveAttribute('aria-modal', 'true')
+    expect(screen.getByText(/LAST palette open/i)).toBeVisible()
 
     fireEvent.change(within(dialog).getByRole('searchbox'), {
       target: { value: 'profile' },
@@ -125,47 +126,19 @@ describe('CommandPalette', () => {
     expect(document.querySelector('audio')).toBeNull()
   })
 
-  it('opens an interactive terminal from the palette, not diagnostics', async () => {
-    renderShell()
+  it('links terminal to the on-page console instead of opening an overlay', () => {
+    renderShell('/profile')
     const dialog = openPalette()
 
     fireEvent.change(within(dialog).getByRole('searchbox'), {
       target: { value: 'terminal' },
     })
-    fireEvent.click(within(dialog).getByRole('button', { name: /terminal/i }))
 
-    const terminal = await screen.findByRole('dialog', { name: /terminal|терминал/i })
     expect(
-      within(terminal).getByRole('textbox', { name: /команда терминала/i }),
-    ).toBeVisible()
-    expect(terminal).not.toHaveTextContent(/cpu|ram/i)
-  })
-
-  it('closes the terminal on Escape and restores focus to the opener', async () => {
-    renderShell()
-
-    const opener = document.createElement('button')
-    opener.textContent = 'focus seed'
-    document.body.append(opener)
-    opener.focus()
-
-    const dialog = openPalette()
-    fireEvent.change(within(dialog).getByRole('searchbox'), {
-      target: { value: 'terminal' },
-    })
-    fireEvent.click(within(dialog).getByRole('button', { name: /terminal/i }))
-
-    const terminal = await screen.findByRole('dialog', { name: /terminal|терминал/i })
-    expect(
-      within(terminal).getByRole('textbox', { name: /команда терминала/i }),
-    ).toHaveFocus()
-
-    fireEvent.keyDown(window, { key: 'Escape' })
+      within(dialog).getByRole('link', { name: /terminal/i }),
+    ).toHaveAttribute('href', '/')
     expect(
       screen.queryByRole('dialog', { name: /terminal|терминал/i }),
     ).not.toBeInTheDocument()
-    expect(opener).toHaveFocus()
-
-    opener.remove()
   })
 })

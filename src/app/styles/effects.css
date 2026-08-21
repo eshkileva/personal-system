@@ -268,16 +268,8 @@
     min-height: 330px;
   }
 
-  .field-card:nth-child(2) {
-    margin-top: 90px;
-  }
-
-  .field-card:nth-child(3) {
-    margin-top: -45px;
-  }
-
-  .field-card:nth-child(4) {
-    margin-top: 45px;
+  .field-card:nth-child(even) {
+    margin-top: 2.75rem;
   }
 }
 
@@ -375,6 +367,8 @@
 
   .project-signal--wave {
     isolation: isolate;
+    overflow: hidden;
+    padding: 1.1rem 1.15rem 1.2rem;
   }
 
   .project-wave-field {
@@ -419,7 +413,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.75rem;
-    perspective: 900px;
+    min-width: 0;
   }
 
   .experiment-panel {
@@ -435,9 +429,8 @@
     letter-spacing: 0.1em;
     text-align: left;
     cursor: pointer;
-    transform-origin: center bottom;
+    min-width: 0;
     transition:
-      transform 280ms ease,
       border-color 200ms ease,
       background-color 200ms ease,
       color 200ms ease;
@@ -494,17 +487,6 @@
     right: -1rem;
     width: 1rem;
     border-top: 1px solid var(--color-signal);
-  }
-}
-
-@media (min-width: 40rem) and (prefers-reduced-motion: no-preference) {
-  .experiment-panel {
-    transform: rotateY(calc((var(--panel-index, 0) - 1) * 9deg))
-      translateZ(12px);
-  }
-
-  .experiment-panel[aria-pressed='true'] {
-    transform: rotateY(0deg) translateZ(36px);
   }
 }
 

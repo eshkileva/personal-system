@@ -7,6 +7,12 @@ import { PageSection, SectionLabel } from '../../../shared/ui/SectionPrimitives'
 
 const seo = seoFromRoute('/projects')
 
+const statusLabel = {
+  prototype: 'ПРОТОТИП',
+  concept: 'КОНЦЕПЦИЯ',
+  'in progress': 'В РАБОТЕ',
+} as const
+
 export function ProjectsPage() {
   return (
     <PageSection>
@@ -14,30 +20,40 @@ export function ProjectsPage() {
       <SectionLabel number="02">ПРОЕКТЫ</SectionLabel>
       <h1
         aria-label="СИСТЕМНЫЕ ИНСТАНСЫ"
-        className="mt-8 font-display text-[clamp(3rem,11vw,9rem)] uppercase leading-[0.84] tracking-[-0.04em]"
+        className="mt-8 font-display text-[clamp(3rem,11vw,9rem)] uppercase leading-[0.92] tracking-[0.02em]"
       >
         СИСТЕМНЫЕ
         <br />
         <span className="text-outline-strong">ИНСТАНСЫ</span>
       </h1>
-      <ul className="mt-16 grid max-w-5xl list-none gap-5 p-0">
+      <ul className="instance-list">
         {projects.map((project) => (
           <li key={project.slug}>
-            <Link
-              to={projectPath(project.slug)}
-              className="block cursor-pointer border border-line bg-project p-6 no-underline transition-colors duration-200 hover:border-line-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric sm:p-8"
-            >
-              <span className="font-mono text-xs uppercase tracking-widest text-project-meta">
-                {project.eyebrow}
+            <Link className="instance-window" to={projectPath(project.slug)}>
+              <span className="instance-window__chrome">
+                <span aria-hidden="true" className="instance-window__dots">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span>ADDR {projectPath(project.slug)}</span>
+                <span className="instance-window__status">
+                  {statusLabel[project.status]}
+                </span>
               </span>
-              <h2 className="mt-6 font-display text-[clamp(2rem,7vw,5rem)] uppercase leading-[0.88]">
-                {project.title.join(' ')}
-              </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-copy-soft">
-                {project.thesis}
-              </p>
-              <span className="mt-8 block font-mono text-xs uppercase tracking-widest text-electric">
-                ОТКРЫТЬ ИНСТАНС <span aria-hidden="true">↗</span>
+              <span className="instance-window__body">
+                <span className="font-mono text-xs uppercase tracking-[0.14em] text-project-meta">
+                  {project.eyebrow}
+                </span>
+                <h2 className="mt-6 font-display text-[clamp(2rem,7vw,5rem)] uppercase leading-[0.96] tracking-[0.04em]">
+                  {project.title.join(' ')}
+                </h2>
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-copy-soft">
+                  {project.thesis}
+                </p>
+                <span className="mt-8 block font-mono text-xs uppercase tracking-[0.14em] text-electric">
+                  ОТКРЫТЬ ИНСТАНС <span aria-hidden="true">↗</span>
+                </span>
               </span>
             </Link>
           </li>

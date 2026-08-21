@@ -39,6 +39,10 @@ export function runTerminalCommand(
   context: TerminalContext,
 ): TerminalResult {
   const trimmed = input.trim()
+  if (!trimmed) {
+    return { output: [] }
+  }
+
   const [command = '', ...rest] = trimmed.split(/\s+/)
   const name = command.toLowerCase()
 

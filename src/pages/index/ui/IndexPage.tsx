@@ -4,6 +4,8 @@ import { seoFromRoute } from '../../../shared/config/seo'
 import { systemRoutes } from '../../../shared/config/routes'
 import { DocumentMeta } from '../../../shared/lib/seo/DocumentMeta'
 import { PageSection, SectionLabel } from '../../../shared/ui/SectionPrimitives'
+import { useSystemBoot } from '../../../features/system-boot/model/useSystemBoot'
+import { SystemTerminal } from '../../../widgets/terminal/ui/SystemTerminal'
 import { IndexMap } from './IndexMap'
 
 const seo = seoFromRoute('/')
@@ -52,6 +54,7 @@ function useIndexBoot() {
 
 export function IndexPage() {
   const booting = useIndexBoot()
+  const bootStatus = useSystemBoot()
 
   return (
     <PageSection>
@@ -86,8 +89,9 @@ export function IndexPage() {
             Юлия Ешкилева — frontend-разработчик. Модули системы ниже: путь,
             состояние, переход.
           </p>
+          <IndexMap />
         </div>
-        <IndexMap />
+        <SystemTerminal bootStatus={bootStatus} />
       </div>
       <nav className="index-files mt-12 min-w-0" aria-label="Модули системы">
         <table className="index-files__table">

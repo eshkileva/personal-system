@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import type { SystemBootState } from '../../../features/system-boot/model/useSystemBoot'
+import { useSessionLog } from '../../../features/session-log/model/useSessionLog'
 
 type SystemStatusProps = {
   status: SystemBootState
 }
+
+const FLASH_MS = 1400
 
 function formatSession(elapsedMs: number) {
   const total = Math.max(0, Math.floor(elapsedMs / 1000))
@@ -25,6 +28,8 @@ function readView() {
 
 export function SystemStatus({ status }: SystemStatusProps) {
   const { pathname } = useLocation()
+  const lastEvent = useSessionLog()
+  const [flash, setFlash] = useState<typeof lastEvent>(null)
   const [motion, setMotion] = useState(readMotion)
   const [view, setView] = useState(readView)
   const [session, setSession] = useState('00:00')
@@ -47,6 +52,18 @@ export function SystemStatus({ status }: SystemStatusProps) {
     }
   }, [])
 
+  useEffect(() => {
+    if (!lastEvent) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setFlash(null)
+      return
+    }
+
+    setFlash(lastEvent)
+    const timer = window.setTimeout(() => setFlash(null), FLASH_MS)
+    return () => window.clearTimeout(timer)
+  }, [lastEvent])
+
   return (
     <div className="system-status" role="status">
       <p className="system-status__boot">{status}</p>
@@ -54,6 +71,14 @@ export function SystemStatus({ status }: SystemStatusProps) {
       <p>MOTION {motion}</p>
       <p>VIEW {view}</p>
       <p>SESSION {session}</p>
+      {lastEvent ? (
+        <p className="system-status__last">LAST {lastEvent.line}</p>
+      ) : null}
+      {flash ? (
+        <p aria-hidden="true" className="system-status__flash">
+          {flash.line}
+        </p>
+      ) : null}
     </div>
   )
 }

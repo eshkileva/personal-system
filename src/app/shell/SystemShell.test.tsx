@@ -44,6 +44,11 @@ describe('SystemShell navigation', () => {
     expect(screen.getByText(/MOTION LIVE|MOTION REDUCE/)).toBeInTheDocument()
     expect(screen.getByText(/VIEW \d+×\d+/)).toBeInTheDocument()
     expect(screen.getByText(/SESSION \d{2}:\d{2}/)).toBeInTheDocument()
+    expect(
+      screen.getByText(/LAST (route \/|boot |motion )/i),
+    ).toBeVisible()
+    expect(screen.queryByRole('list', { name: /журнал сессии/i })).not.toBeInTheDocument()
+    expect(screen.getByText(/LAST /)).not.toHaveTextContent(/cpu|ram/i)
   })
 
   it('marks active links and opens the full module list', () => {

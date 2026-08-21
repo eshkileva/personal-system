@@ -61,7 +61,7 @@ export const systemRoutes: SystemRoute[] = [
     label: 'contact',
     title: 'Контакт — Personal System | Юлия Ешкилева',
     description:
-      'Связаться с frontend-разработчиком: почта для работодателей и обсуждения задач.',
+      'Связаться с frontend-разработчиком: почта, GitHub и Telegram.',
   },
 ]
 

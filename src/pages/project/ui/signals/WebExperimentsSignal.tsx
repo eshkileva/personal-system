@@ -31,7 +31,7 @@ export function WebExperimentsSignal({ experiments }: WebExperimentsSignalProps)
         ))}
       </div>
       <div className="experiment-deck">
-        {experiments.map((experiment, index) => (
+        {experiments.map((experiment) => (
           <button
             key={experiment.id}
             type="button"
@@ -44,7 +44,6 @@ export function WebExperimentsSignal({ experiments }: WebExperimentsSignalProps)
             ]
               .filter(Boolean)
               .join(' ')}
-            style={{ '--panel-index': index } as React.CSSProperties}
             aria-pressed={experiment.id === active.id}
             onClick={() => setActiveId(experiment.id)}
           >
