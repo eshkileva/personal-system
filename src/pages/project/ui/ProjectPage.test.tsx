@@ -205,10 +205,30 @@ describe('project routes', () => {
     const webSignal = webPage.container.querySelector(
       '[data-project-signal="wave"]',
     )
-    expect(webSignal).toHaveAttribute('aria-hidden', 'true')
+    expect(webSignal).not.toHaveAttribute('aria-hidden')
     expect(
       webSignal?.querySelectorAll('[data-experiment-window]'),
     ).toHaveLength(3)
+  })
+
+  it('lets the keyboard switch Web Experiments hypotheses', () => {
+    render(
+      <MemoryRouter initialEntries={['/projects/web-experiments']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText(/локальный прототип, не live demo/i)).toBeVisible()
+    fireEvent.click(screen.getByRole('button', { name: /эксперимент b/i }))
+    expect(screen.getByRole('button', { name: /эксперимент b/i })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+    const signal = document.querySelector('[data-project-signal="wave"]')
+    expect(signal).not.toBeNull()
+    expect(
+      within(signal as HTMLElement).getByText(/контейнерная типографика/i),
+    ).toBeVisible()
   })
 
   it('does not render the old chapter dossier UI', () => {

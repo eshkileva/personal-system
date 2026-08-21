@@ -37,7 +37,7 @@ function ProjectInstance({ project }: { project: Project }) {
           project.variant === 'terminal' ? (
             <JobAgentSignal nodes={project.systemNodes} />
           ) : (
-            <WebExperimentsSignal />
+            <WebExperimentsSignal experiments={project.experiments ?? []} />
           )
         }
       />
