@@ -21,22 +21,6 @@ export function WebExperimentsSignal({ experiments }: WebExperimentsSignalProps)
       <p className="project-signal__caption">
         локальный прототип, не live demo
       </p>
-      <div className="project-pipeline">
-        {experiments.map((experiment) => (
-          <button
-            key={experiment.id}
-            type="button"
-            className="project-pipeline__node"
-            aria-pressed={experiment.id === active.id}
-            onClick={() => setActiveId(experiment.id)}
-          >
-            Эксперимент {experiment.id}
-          </button>
-        ))}
-      </div>
-      <div className="project-terminal">
-        <p>{active.hypothesis}</p>
-      </div>
       <div aria-hidden="true" className="project-wave-field">
         {Array.from({ length: 7 }, (_, index) => (
           <span
@@ -46,23 +30,31 @@ export function WebExperimentsSignal({ experiments }: WebExperimentsSignalProps)
           />
         ))}
       </div>
-      <div aria-hidden="true" className="project-experiment-windows">
-        {experiments.map((experiment) => (
-          <div
+      <div className="experiment-deck">
+        {experiments.map((experiment, index) => (
+          <button
             key={experiment.id}
+            type="button"
             data-experiment-window
             className={[
-              'project-experiment-window',
+              'experiment-panel',
               experiment.id === 'C' && experiment.id === active.id
-                ? 'project-experiment-window--motion'
+                ? 'experiment-panel--motion'
                 : '',
             ]
               .filter(Boolean)
               .join(' ')}
+            style={{ '--panel-index': index } as React.CSSProperties}
+            aria-pressed={experiment.id === active.id}
+            onClick={() => setActiveId(experiment.id)}
           >
-            <span>ЭКСП / {experiment.id}</span>
-          </div>
+            <span>Эксперимент {experiment.id}</span>
+            <strong>{experiment.title}</strong>
+          </button>
         ))}
+      </div>
+      <div className="project-terminal">
+        <p>{active.hypothesis}</p>
       </div>
     </div>
   )

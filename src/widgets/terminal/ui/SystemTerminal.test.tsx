@@ -59,4 +59,14 @@ describe('SystemTerminal', () => {
     fireEvent.keyDown(terminal, { key: 'Tab' })
     expect(input).toHaveFocus()
   })
+
+  it('renders a 3d chassis around the command surface', () => {
+    renderTerminal()
+    const terminal = screen.getByRole('dialog', { name: /terminal|терминал/i })
+    expect(terminal.querySelector('.system-terminal__chassis')).not.toBeNull()
+    expect(terminal.querySelector('.system-terminal__space')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    )
+  })
 })

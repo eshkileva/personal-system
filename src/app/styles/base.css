@@ -384,14 +384,60 @@
   display: grid;
   place-items: center;
   padding: 12vh 1.5rem 1.5rem;
+  overflow: hidden;
   background: rgb(2 6 11 / 0.72);
+  perspective: 1400px;
+}
+
+.system-terminal__space {
+  position: absolute;
+  inset: 42% -18% -28%;
+  pointer-events: none;
+  background:
+    linear-gradient(rgb(22 140 255 / 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(22 140 255 / 0.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to top, black, transparent 78%);
+  transform: rotateX(68deg) scale(1.35);
+  transform-origin: center top;
+}
+
+.system-terminal__chassis {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(42rem, 100%);
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid var(--color-line-strong);
+  background:
+    linear-gradient(180deg, rgb(22 140 255 / 0.08), transparent 28%),
+    rgb(2 6 11 / 0.96);
+  box-shadow:
+    0 2.5rem 5rem rgb(0 0 0 / 0.55),
+    inset 0 1px 0 rgb(226 246 255 / 0.12);
+  transform: rotateX(8deg);
+  transform-style: preserve-3d;
+}
+
+.system-terminal__chassis::after {
+  content: '';
+  position: absolute;
+  inset: 2.4rem 1rem 3.6rem;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(226 246 255 / 0.035),
+    rgb(226 246 255 / 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
 }
 
 .system-terminal__label,
 .system-terminal__pre,
 .system-terminal__prompt,
 .system-terminal__prompt input {
-  width: min(42rem, 100%);
+  width: 100%;
   color: var(--color-terminal);
   font-family: var(--font-mono);
   font-size: 0.875rem;
@@ -426,7 +472,7 @@
 }
 
 .system-terminal__xterm:not(:empty) {
-  width: min(42rem, 100%);
+  width: 100%;
   min-height: 12rem;
   border: 1px solid var(--color-line-strong);
   background: rgb(2 6 11 / 0.96);
@@ -649,6 +695,22 @@
 
   .index-boot {
     display: none !important;
+  }
+
+  .system-terminal {
+    perspective: none;
+  }
+
+  .system-terminal__space {
+    display: none;
+  }
+
+  .system-terminal__chassis {
+    transform: none;
+  }
+
+  .system-terminal__chassis::after {
+    display: none;
   }
 }
 

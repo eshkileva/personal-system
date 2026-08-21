@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { gsap } from 'gsap'
 import { useLocation, useNavigate } from 'react-router-dom'
 import type { SystemBootState } from '../../../features/system-boot/model/useSystemBoot'
 import {
@@ -20,6 +21,7 @@ function pointerKind(): TerminalContext['pointer'] {
 export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const chassisRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const xtermHostRef = useRef<HTMLDivElement>(null)
   const termRef = useRef<{
@@ -32,6 +34,25 @@ export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
   const [lines, setLines] = useState<string[]>(['personal-system terminal. введите help.'])
   const [live, setLive] = useState('')
   linesRef.current = lines
+
+  useLayoutEffect(() => {
+    const chassis = chassisRef.current
+    if (!chassis) return
+
+    const media = gsap.matchMedia()
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const context = gsap.context(() => {
+        gsap.fromTo(
+          chassis,
+          { rotateX: 28, y: 36, autoAlpha: 0 },
+          { rotateX: 8, y: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' },
+        )
+      }, chassis)
+      return () => context.revert()
+    })
+
+    return () => media.revert()
+  }, [])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -125,24 +146,27 @@ export function SystemTerminal({ bootStatus, onClose }: SystemTerminalProps) {
       onKeyDown={trapTabFocus}
       role="dialog"
     >
-      <p className="system-terminal__label">terminal</p>
-      <div aria-hidden="true" className="system-terminal__xterm" ref={xtermHostRef} />
-      <pre className="system-terminal__pre">{lines.join('\n')}</pre>
-      <div className="sr-only" role="status">
-        {live}
+      <div aria-hidden="true" className="system-terminal__space" />
+      <div className="system-terminal__chassis" ref={chassisRef}>
+        <p className="system-terminal__label">terminal</p>
+        <div aria-hidden="true" className="system-terminal__xterm" ref={xtermHostRef} />
+        <pre className="system-terminal__pre">{lines.join('\n')}</pre>
+        <div className="sr-only" role="status">
+          {live}
+        </div>
+        <form onSubmit={submitCommand}>
+          <label className="system-terminal__prompt">
+            команда терминала
+            <input
+              autoComplete="off"
+              onChange={(event) => setQuery(event.target.value)}
+              ref={inputRef}
+              spellCheck={false}
+              value={query}
+            />
+          </label>
+        </form>
       </div>
-      <form onSubmit={submitCommand}>
-        <label className="system-terminal__prompt">
-          команда терминала
-          <input
-            autoComplete="off"
-            onChange={(event) => setQuery(event.target.value)}
-            ref={inputRef}
-            spellCheck={false}
-            value={query}
-          />
-        </label>
-      </form>
     </div>
   )
 }
