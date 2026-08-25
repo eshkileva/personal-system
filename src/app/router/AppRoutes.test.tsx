@@ -142,7 +142,7 @@ describe('AppRoutes', () => {
       screen.getByRole('link', { name: /веб эксперименты/i }),
     ).toHaveAttribute('href', '/projects/web-experiments')
     expect(
-      screen.getByRole('link', { name: /купил\s*ко/i }),
+      screen.getByRole('link', { name: /купилко/i }),
     ).toHaveAttribute('href', '/projects/kupilko')
     expect(screen.getByText('ADDR /projects/job-agent')).toBeVisible()
     expect(screen.getByText('ПРОТОТИП')).toBeVisible()

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { formatProjectTitle } from '../../../entities/project/model/selectors'
 import { projects } from '../../../entities/project/model/projects'
 import { projectPath } from '../../../shared/config/routes'
 import { seoFromRoute } from '../../../shared/config/seo'
@@ -46,7 +47,7 @@ export function ProjectsPage() {
                   {project.eyebrow}
                 </span>
                 <h2 className="mt-6 font-display text-[clamp(2rem,7vw,5rem)] uppercase leading-[0.96] tracking-[0.04em]">
-                  {project.title.join(' ')}
+                  {formatProjectTitle(project.title)}
                 </h2>
                 <p className="mt-6 max-w-2xl text-lg leading-relaxed text-copy-soft">
                   {project.thesis}
