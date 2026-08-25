@@ -134,7 +134,7 @@ describe('project routes', () => {
     expect(
       await screen.findByRole('heading', { name: /системные инстансы/i }),
     ).toBeVisible()
-    expect(screen.getAllByText(/открыть инстанс/i)).toHaveLength(2)
+    expect(screen.getAllByText(/открыть инстанс/i)).toHaveLength(3)
     await waitFor(() => {
       expect(document.title).toBe(
         'Проекты — Personal System | Юлия Ешкилева',

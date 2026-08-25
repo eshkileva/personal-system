@@ -141,9 +141,12 @@ describe('AppRoutes', () => {
     expect(
       screen.getByRole('link', { name: /веб эксперименты/i }),
     ).toHaveAttribute('href', '/projects/web-experiments')
+    expect(
+      screen.getByRole('link', { name: /купил\s*ко/i }),
+    ).toHaveAttribute('href', '/projects/kupilko')
     expect(screen.getByText('ADDR /projects/job-agent')).toBeVisible()
     expect(screen.getByText('ПРОТОТИП')).toBeVisible()
-    expect(screen.getByText('В РАБОТЕ')).toBeVisible()
+    expect(screen.getAllByText('В РАБОТЕ')).toHaveLength(2)
   })
 
   it('renders the current fields on the stack page', async () => {

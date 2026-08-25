@@ -41,6 +41,22 @@ describe('project records', () => {
         stack: ['React', 'GSAP', 'CSS', 'TypeScript'],
         status: 'in progress',
         chapters: ['01:idea', '02:system', '03:decisions', '04:result'],
+        nextProjectSlug: 'kupilko',
+      },
+      {
+        slug: 'kupilko',
+        title: ['КУПИЛ', 'КО'],
+        variant: 'terminal',
+        stack: [
+          'React',
+          'Fastify',
+          'PostgreSQL',
+          'Drizzle',
+          'TanStack Query',
+          'WebSocket',
+        ],
+        status: 'in progress',
+        chapters: ['01:idea', '02:system', '03:decisions', '04:result'],
         nextProjectSlug: 'job-agent',
       },
     ])
@@ -50,7 +66,10 @@ describe('project records', () => {
     const jobAgent = getProjectBySlug('job-agent')
     expect(jobAgent?.title).toEqual(['АГЕНТ', 'ПОИСКА РАБОТЫ'])
     expect(getNextProject(jobAgent!)?.slug).toBe('web-experiments')
-    expect(getNextProject(getNextProject(jobAgent!)!)?.slug).toBe('job-agent')
+    expect(getNextProject(getNextProject(jobAgent!)!)?.slug).toBe('kupilko')
+    expect(getNextProject(getNextProject(getNextProject(jobAgent!)!)!)?.slug).toBe(
+      'job-agent',
+    )
   })
 
   it('returns undefined for an unknown slug', () => {
@@ -67,6 +86,7 @@ describe('project records', () => {
     expect(webExperiments?.thesis).toMatch(/адаптив/i)
     expect(projects.map((project) => project.status)).toEqual([
       'prototype',
+      'in progress',
       'in progress',
     ])
   })
@@ -155,6 +175,9 @@ describe('project records', () => {
     expect(projects[1].outcome.summary).toContain(
       'находится в работе',
     )
+    expect(projects[2].outcome.summary).toContain(
+      'запуска и подтверждённых результатов у проекта пока нет',
+    )
   })
 
   it('documents the Job Agent data flow and prototype boundaries', () => {
@@ -190,8 +213,23 @@ describe('project records', () => {
     expect(webExperiments?.status).toBe('in progress')
   })
 
+  it('documents Kupilko as a layered C2C marketplace MVP', () => {
+    const kupilko = getProjectBySlug('kupilko')
+    const dossier = JSON.stringify(kupilko)
+
+    expect(kupilko?.systemNodes).toHaveLength(7)
+    expect(dossier).toMatch(/C2C/i)
+    expect(dossier).toMatch(/Fastify/)
+    expect(dossier).toMatch(/PostgreSQL/)
+    expect(dossier).toMatch(/Trust Score/)
+    expect(dossier).toMatch(/модерац/i)
+    expect(dossier).toMatch(/WebSocket/)
+    expect(dossier).toMatch(/MVP/i)
+    expect(kupilko?.status).toBe('in progress')
+  })
+
   it('exposes the eight instance sections without invented links', () => {
-    expect(projects).toHaveLength(2)
+    expect(projects).toHaveLength(3)
 
     for (const project of projects) {
       expect(project.preview.kind).toBe('svg')
@@ -209,6 +247,7 @@ describe('project records', () => {
 
     expect(projects[0].role).toMatch(/прототипа/i)
     expect(projects[1].role).toMatch(/эксперимента/i)
+    expect(projects[2].role).toMatch(/прототипа/i)
   })
 
   it('uses natural Russian for message and keyboard accessibility states', () => {
