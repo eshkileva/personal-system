@@ -176,10 +176,10 @@ function InstanceSection({
 function ProjectLinks({ links }: { links: Project['links'] }) {
   const { github, demo, telegram } = links
   const items = [
-    github ? { href: github, label: 'GitHub' } : null,
-    demo ? { href: demo, label: 'Demo' } : null,
-    telegram ? { href: telegram, label: 'Telegram' } : null,
-  ].filter(Boolean)
+    ...(github ? [{ href: github, label: 'GitHub' as const }] : []),
+    ...(demo ? [{ href: demo, label: 'Demo' as const }] : []),
+    ...(telegram ? [{ href: telegram, label: 'Telegram' as const }] : []),
+  ]
 
   if (items.length === 0) {
     return (
