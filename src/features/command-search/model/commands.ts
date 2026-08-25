@@ -1,3 +1,4 @@
+import { formatProjectTitle } from '../../../entities/project/model/selectors'
 import { projects } from '../../../entities/project/model/projects'
 import { projectPath, systemRoutes } from '../../../shared/config/routes'
 
@@ -21,8 +22,8 @@ export function getPaletteCommands(): PaletteCommand[] {
 
   const projectCommands: PaletteCommand[] = projects.map((project) => ({
     id: project.slug,
-    label: project.title.join(' '),
-    keywords: `${project.slug} ${project.title.join(' ')} ${projectPath(project.slug)}`,
+    label: formatProjectTitle(project.title),
+    keywords: `${project.slug} ${formatProjectTitle(project.title)} ${projectPath(project.slug)}`,
     href: projectPath(project.slug),
   }))
 

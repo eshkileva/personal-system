@@ -32,7 +32,7 @@ export const projects: Project[] = [
       'Job Agent остаётся прототипом: в проекте проработаны путь данных от вакансии до объяснённой подборки в Telegram и состояния интерфейса сообщений.',
       'Проект не запущен и не прошёл коммерческую валидацию. Следующий этап — проверить источники, качество извлечения требований и полезность ранжирования на реальном цикле поиска.',
     ],
-    links: { github: null, demo: null },
+    links: { github: null, demo: null, telegram: 'https://t.me/tknusnm' },
     chapters: [
       {
         id: 'idea',
@@ -178,7 +178,7 @@ export const projects: Project[] = [
       'Web Experiments — проект в работе, а не завершённая библиотека. В нём собираются компоненты на React и TypeScript с адаптивными раскладками, контейнерной типографикой и состояниями, выраженными через GSAP или CSS.',
       'Цель текущего этапа — документировать доступность, reduced-motion и границы применения, чтобы удачные решения превращались в переиспользуемые паттерны без заявлений о неподтверждённых результатах.',
     ],
-    links: { github: null, demo: null },
+    links: { github: null, demo: null, telegram: null },
     chapters: [
       {
         id: 'idea',
@@ -311,7 +311,7 @@ export const projects: Project[] = [
     slug: 'kupilko',
     number: '02',
     eyebrow: 'ПРОЕКТ / 02 — ПРОДУКТ',
-    title: ['КУПИЛ', 'КО'],
+    title: ['КУПИЛКО', ''],
     thesis:
       'C2C-маркетплейс для BY / RU / KZ: один аккаунт, объявления в разных странах, цены с конвертацией и полный цикл сделки без платежей.',
     status: 'in progress',
@@ -345,7 +345,11 @@ export const projects: Project[] = [
       'MVP-сценарий проходит на чистом pnpm dev: два аккаунта регистрируются, публикуют объявление, находят его через поиск, ведут чат, бронируют и закрывают сделку с оценкой и модерацией.',
       'Проект не запущен и не прошёл коммерческую валидацию. Следующий этап — только то, что попросят отдельно: OAuth, почта, платежи.',
     ],
-    links: { github: null, demo: null },
+    links: {
+      github: 'https://github.com/eshkileva/markethub',
+      demo: 'https://www.kupilko.store/',
+      telegram: null,
+    },
     chapters: [
       {
         id: 'idea',

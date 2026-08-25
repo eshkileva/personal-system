@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { getNextProject } from '../../../entities/project/model/selectors'
+import {
+  formatProjectTitle,
+  getNextProject,
+} from '../../../entities/project/model/selectors'
 import type { Project } from '../../../entities/project/model/types'
 import { projectPath } from '../../../shared/config/routes'
 
@@ -18,7 +21,7 @@ const instanceSections = [
   'Архитектура',
   'Задачи',
   'Результат',
-  'GitHub / Demo',
+  'GitHub · Demo',
 ] as const
 
 type ProjectViewerProps = {
@@ -51,7 +54,7 @@ export function ProjectViewer({ project, previewVisual }: ProjectViewerProps) {
     Архитектура: <CopyList items={project.architecture} />,
     Задачи: <CopyList items={project.challenges} />,
     Результат: <CopyList items={project.results} />,
-    'GitHub / Demo': <ProjectLinks links={project.links} />,
+    'GitHub · Demo': <ProjectLinks links={project.links} />,
   }
 
   return (
@@ -77,7 +80,7 @@ export function ProjectViewer({ project, previewVisual }: ProjectViewerProps) {
           {nextProject ? (
             <Link
               to={projectPath(nextProject.slug)}
-              aria-label={`Следующий проект: ${nextProject.title.join(' ')}`}
+              aria-label={`Следующий проект: ${formatProjectTitle(nextProject.title)}`}
               className="min-h-11 content-center text-electric focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
             >
               Следующий проект →
@@ -91,18 +94,20 @@ export function ProjectViewer({ project, previewVisual }: ProjectViewerProps) {
               {project.eyebrow}
             </p>
             <h1
-              aria-label={project.title.join(' ')}
-              className="project-title mt-5 min-w-0 max-w-full font-display text-[clamp(2rem,10.5cqw,8.5rem)] uppercase leading-[0.84] tracking-[-0.03em] text-ice"
+              aria-label={formatProjectTitle(project.title)}
+              className="project-title mt-5 min-w-0 max-w-full font-display text-[clamp(2rem,10.5cqw,8.5rem)] uppercase leading-[0.92] tracking-[0.02em] text-ice"
             >
               <span data-project-title-layer className="block wrap-break-word">
                 {project.title[0]}
               </span>
-              <span
-                data-project-title-layer
-                className="text-outline-strong block wrap-break-word"
-              >
-                {project.title[1]}
-              </span>
+              {project.title[1] ? (
+                <span
+                  data-project-title-layer
+                  className="text-outline-strong block wrap-break-word"
+                >
+                  {project.title[1]}
+                </span>
+              ) : null}
             </h1>
           </div>
 
@@ -160,7 +165,7 @@ function InstanceSection({
           : 'relative border-b border-line py-16 sm:py-20 xl:py-24'
       }
     >
-      <h2 className="font-display text-[clamp(2.25rem,10cqw,5.75rem)] uppercase leading-[0.82] tracking-[-0.06em] text-ice">
+      <h2 className="font-display text-[clamp(2.25rem,10cqw,5.75rem)] uppercase leading-[0.96] tracking-[0.04em] text-ice">
         {heading}
       </h2>
       <div className="relative z-1 mt-8">{children}</div>
@@ -169,9 +174,14 @@ function InstanceSection({
 }
 
 function ProjectLinks({ links }: { links: Project['links'] }) {
-  const { github, demo } = links
+  const { github, demo, telegram } = links
+  const items = [
+    github ? { href: github, label: 'GitHub' } : null,
+    demo ? { href: demo, label: 'Demo' } : null,
+    telegram ? { href: telegram, label: 'Telegram' } : null,
+  ].filter(Boolean)
 
-  if (!github && !demo) {
+  if (items.length === 0) {
     return (
       <p className="font-mono text-sm tracking-[0.08em] text-code">
         prototype / local
@@ -181,26 +191,19 @@ function ProjectLinks({ links }: { links: Project['links'] }) {
 
   return (
     <ul className="flex flex-wrap gap-4 p-0 font-mono text-sm tracking-[0.08em]">
-      {github ? (
-        <li>
+      {items.map((item) => (
+        <li key={item.label}>
           <a
-            href={github}
+            href={item.href}
             className="text-electric focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
+            {...(item.href.startsWith('http')
+              ? { target: '_blank', rel: 'noreferrer' }
+              : {})}
           >
-            GitHub
+            {item.label}
           </a>
         </li>
-      ) : null}
-      {demo ? (
-        <li>
-          <a
-            href={demo}
-            className="text-electric focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric"
-          >
-            Demo
-          </a>
-        </li>
-      ) : null}
+      ))}
     </ul>
   )
 }

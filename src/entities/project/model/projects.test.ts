@@ -45,7 +45,7 @@ describe('project records', () => {
       },
       {
         slug: 'kupilko',
-        title: ['КУПИЛ', 'КО'],
+        title: ['КУПИЛКО', ''],
         variant: 'terminal',
         stack: [
           'React',
@@ -228,7 +228,7 @@ describe('project records', () => {
     expect(kupilko?.status).toBe('in progress')
   })
 
-  it('exposes the eight instance sections without invented links', () => {
+  it('exposes the eight instance sections with honest external links', () => {
     expect(projects).toHaveLength(3)
 
     for (const project of projects) {
@@ -240,10 +240,26 @@ describe('project records', () => {
       expect(project.architecture.length).toBeGreaterThan(0)
       expect(project.challenges.length).toBeGreaterThan(0)
       expect(project.results.length).toBeGreaterThan(0)
-      expect(project.links.github).toBeNull()
-      expect(project.links.demo).toBeNull()
-      expect(project.links).toEqual({ github: null, demo: null })
+      expect(project.links).toHaveProperty('github')
+      expect(project.links).toHaveProperty('demo')
+      expect(project.links).toHaveProperty('telegram')
     }
+
+    expect(projects[0].links).toEqual({
+      github: null,
+      demo: null,
+      telegram: 'https://t.me/tknusnm',
+    })
+    expect(projects[1].links).toEqual({
+      github: null,
+      demo: null,
+      telegram: null,
+    })
+    expect(projects[2].links).toEqual({
+      github: 'https://github.com/eshkileva/markethub',
+      demo: 'https://www.kupilko.store/',
+      telegram: null,
+    })
 
     expect(projects[0].role).toMatch(/прототипа/i)
     expect(projects[1].role).toMatch(/эксперимента/i)

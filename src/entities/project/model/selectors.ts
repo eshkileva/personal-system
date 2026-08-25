@@ -8,3 +8,7 @@ export function getProjectBySlug(slug: string) {
 export function getNextProject(project: Project) {
   return getProjectBySlug(project.nextProjectSlug)
 }
+
+export function formatProjectTitle(title: Project['title']) {
+  return title.filter(Boolean).join(' ')
+}

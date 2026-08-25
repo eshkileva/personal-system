@@ -20,7 +20,7 @@ const instanceSectionHeadings = [
   'Архитектура',
   'Задачи',
   'Результат',
-  'GitHub / Demo',
+  'GitHub · Demo',
 ]
 
 describe('project routes', () => {
@@ -85,8 +85,11 @@ describe('project routes', () => {
     expect(
       screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent),
     ).toEqual(instanceSectionHeadings)
-    expect(screen.getByText('prototype / local')).toBeVisible()
-    expect(screen.queryByRole('link', { name: /github|demo/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /telegram/i })).toHaveAttribute(
+      'href',
+      'https://t.me/tknusnm',
+    )
+    expect(screen.queryByText('prototype / local')).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: /следующий проект/i })).toHaveAttribute(
       'href',
       '/projects/web-experiments',

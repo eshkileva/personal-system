@@ -48,6 +48,7 @@ export type Project = {
   links: {
     github: string | null
     demo: string | null
+    telegram: string | null
   }
   chapters: ProjectChapter[]
   systemNodes: SystemNode[]
