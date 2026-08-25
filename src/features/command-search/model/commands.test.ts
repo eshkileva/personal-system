@@ -4,7 +4,7 @@ import { projectPath, systemRoutes } from '../../../shared/config/routes'
 import { filterCommands, getPaletteCommands } from './commands'
 
 describe('palette commands', () => {
-  it('includes every system route, both projects, status, and diagnostics', () => {
+  it('includes every system route, all projects, status, and diagnostics', () => {
     const ids = getPaletteCommands().map((command) => command.id)
 
     expect(ids).toEqual(
@@ -12,6 +12,7 @@ describe('palette commands', () => {
         ...systemRoutes.map((route) => route.id),
         'job-agent',
         'web-experiments',
+        'kupilko',
         'status',
         'diagnostics',
         'terminal',

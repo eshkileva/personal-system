@@ -1,4 +1,4 @@
-export type ProjectSlug = 'job-agent' | 'web-experiments'
+export type ProjectSlug = 'job-agent' | 'web-experiments' | 'kupilko'
 export type ProjectVariant = 'terminal' | 'wave'
 
 export type ProjectChapter = {
