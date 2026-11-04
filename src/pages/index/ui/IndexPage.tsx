@@ -86,8 +86,8 @@ export function IndexPage() {
             <span className="text-outline-strong">SYSTEM</span>
           </h1>
           <p className="mt-8 max-w-xl text-[clamp(1.05rem,2.4vw,1.5rem)] leading-snug text-copy">
-            Юлия Ешкилева — frontend-разработчик. Модули системы ниже: путь,
-            состояние, переход.
+            Юлия Ешкилева — аналитик. Модули системы ниже: путь, состояние,
+            переход.
           </p>
           <IndexMap />
         </div>

@@ -277,7 +277,7 @@ describe('project records', () => {
     )
     expect(webExperimentsCopy).toContain('компоненты на React и TypeScript')
     expect(webExperimentsCopy).toContain(
-      'проверить одну frontend-гипотезу, собрать небольшой компонент на React и оценить его на разных размерах контейнера без лишнего контекста',
+      'проверить одну гипотезу интерфейса, собрать небольшой компонент на React и оценить его на разных размерах контейнера без лишнего контекста',
     )
     expect(webExperimentsCopy).not.toContain('React и TypeScript-компонент')
     expect(webExperimentsCopy).not.toContain('frontend-вопрос')

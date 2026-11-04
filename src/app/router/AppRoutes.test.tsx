@@ -115,16 +115,16 @@ describe('AppRoutes', () => {
 
     expect(
       await screen.findByRole('heading', {
-        name: /пишу код.*разбираю системы/i,
+        name: /собираю требования.*описываю поведение системы/i,
       }),
     ).toBeVisible()
-    expect(screen.getByText('FRONTEND-РАЗРАБОТЧИК')).toBeVisible()
+    expect(screen.getByText('АНАЛИТИК')).toBeVisible()
     expect(
       screen.getByRole('region', { name: /схема идентичности/i }),
     ).toBeVisible()
-    expect(screen.getByRole('heading', { name: /^код$/i })).toBeVisible()
+    expect(screen.getByRole('heading', { name: /^требования$/i })).toBeVisible()
     expect(screen.getByRole('heading', { name: /^система$/i })).toBeVisible()
-    expect(screen.getByRole('heading', { name: /^рост$/i })).toBeVisible()
+    expect(screen.getByRole('heading', { name: /^реализация$/i })).toBeVisible()
     await waitFor(() => {
       expect(document.title).toBe(
         'Профиль — Юлия Ешкилева | Personal System',
@@ -155,20 +155,26 @@ describe('AppRoutes', () => {
     expect(
       await screen.findByRole('heading', { name: /стек системы/i }),
     ).toBeVisible()
-    expect(screen.getByText('FRONTEND')).toBeVisible()
-    expect(screen.getByText('СИСТЕМНЫЙ АНАЛИЗ')).toBeVisible()
-    expect(screen.getByText('AI-АВТОМАТИЗАЦИЯ')).toBeVisible()
-    expect(screen.getByText('TELEGRAM-БОТЫ')).toBeVisible()
+    expect(screen.getByText('АНАЛИЗ ТРЕБОВАНИЙ')).toBeVisible()
+    expect(screen.getByText('ПРОЦЕССЫ И ДАННЫЕ')).toBeVisible()
+    expect(screen.getByText('API И КОНТРАКТЫ')).toBeVisible()
+    expect(screen.getByText('ТЕХНИЧЕСКИЙ БЭКГРАУНД')).toBeVisible()
   })
 
-  it('presents experience as a trajectory without employer claims', async () => {
+  it('presents experience as analyst practice without employer claims', async () => {
     const { container } = renderRoute('/experience')
 
     expect(
-      await screen.findByRole('heading', { name: /траектория роста/i }),
+      await screen.findByRole('heading', { name: /опыт и практика/i }),
+    ).toBeVisible()
+    expect(
+      screen.getByRole('region', { name: /обязанности аналитика/i }),
     ).toBeVisible()
     expect(container.querySelector('.trajectory-path')).not.toBeNull()
     expect(container).not.toHaveTextContent(/работодатель|клиент/i)
+    expect(container).not.toHaveTextContent(
+      /тимлид|ведущий аналитик|\bsenior\b|руководитель/i,
+    )
   })
 
   it('keeps the contact channels as real links', async () => {
