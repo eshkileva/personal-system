@@ -21,7 +21,7 @@ export const systemRoutes: SystemRoute[] = [
     label: 'index',
     title: 'Юлия Ешкилева — Personal System',
     description:
-      'Системный индекс frontend-разработчика: профиль, проекты, стек, опыт и контакт.',
+      'Системный индекс аналитика: профиль, проекты, стек, опыт и контакт.',
   },
   {
     path: '/profile',
@@ -29,7 +29,7 @@ export const systemRoutes: SystemRoute[] = [
     label: 'profile',
     title: 'Профиль — Юлия Ешкилева | Personal System',
     description:
-      'Frontend-разработчик на React и TypeScript: интерфейсы, состояния компонентов и системное мышление.',
+      'Аналитик с техническим бэкграундом: требования, сценарии, API-контракты и сверка с реализацией.',
   },
   {
     path: '/projects',
@@ -45,15 +45,15 @@ export const systemRoutes: SystemRoute[] = [
     label: 'stack',
     title: 'Стек — Personal System | Юлия Ешкилева',
     description:
-      'Инструменты системы: React, TypeScript, системный анализ, AI-автоматизация и Telegram-боты.',
+      'Практика аналитика: требования, процессы и данные, API-контракты и технический бэкграунд.',
   },
   {
     path: '/experience',
     id: 'experience',
     label: 'experience',
-    title: 'Траектория — Personal System | Юлия Ешкилева',
+    title: 'Опыт — Personal System | Юлия Ешкилева',
     description:
-      'Направления роста: frontend-архитектура, системный анализ и личные инструменты автоматизации.',
+      'Практика аналитика: требования, сценарии, контракты и технический контекст.',
   },
   {
     path: '/contact',
@@ -61,7 +61,7 @@ export const systemRoutes: SystemRoute[] = [
     label: 'contact',
     title: 'Контакт — Personal System | Юлия Ешкилева',
     description:
-      'Связаться с frontend-разработчиком: почта, GitHub и Telegram.',
+      'Связаться с аналитиком: почта, GitHub и Telegram.',
   },
 ]
 

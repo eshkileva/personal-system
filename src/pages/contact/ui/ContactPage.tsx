@@ -6,9 +6,9 @@ import { PageSection, SectionLabel } from '../../../shared/ui/SectionPrimitives'
 const seo = seoFromRoute('/contact')
 
 const channels = [
-  'frontend-задачи',
-  'продуктовые интерфейсы',
-  'работа рядом с аналитикой',
+  'требования и сценарии',
+  'API-контракты',
+  'web-продукты',
 ] as const
 
 export function ContactPage() {
@@ -20,12 +20,12 @@ export function ContactPage() {
         ИЩУ КОМАНДУ, ГДЕ
         <br />
         <span className="text-outline-strong">
-          МОЖНО РАСТИ И ПРИНОСИТЬ ПОЛЬЗУ
+          АНАЛИТИКА ВЛИЯЕТ НА РЕШЕНИЯ
         </span>
       </h1>
       <p className="mt-12 max-w-2xl text-xl leading-relaxed text-contact-copy">
-        Интересны frontend-задачи, продуктовые интерфейсы и работа рядом с
-        аналитикой.
+        Интересны задачи по требованиям, сценариям, критериям приёмки и
+        API-контрактам в web-продуктах.
       </p>
       <section aria-label="Каналы связи" className="contact-channel">
         <p className="contact-channel__legend">ENDPOINTS</p>

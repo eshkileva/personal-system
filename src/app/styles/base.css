@@ -414,6 +414,41 @@
   padding: 1.5rem 1.5rem 1.7rem;
 }
 
+.practice-panel {
+  margin-top: 3rem;
+  max-width: 48rem;
+  padding: 1.35rem 1.4rem 1.5rem;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-project);
+}
+
+.practice-panel__legend {
+  margin: 0 0 0.85rem;
+  color: var(--color-electric);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+}
+
+.practice-panel__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.practice-panel__list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-copy);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.practice-panel__list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0.15rem;
+}
+
 .trajectory-path {
   position: relative;
   display: grid;

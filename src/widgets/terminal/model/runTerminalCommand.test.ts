@@ -17,7 +17,7 @@ describe('runTerminalCommand', () => {
 
   it('returns honest identity for whoami', () => {
     expect(runTerminalCommand('whoami', context).output).toEqual([
-      'Юлия Ешкилева — FRONTEND-РАЗРАБОТЧИК',
+      'Юлия Ешкилева — АНАЛИТИК',
     ])
   })
 

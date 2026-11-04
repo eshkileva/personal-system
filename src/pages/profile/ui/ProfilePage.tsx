@@ -17,9 +17,9 @@ export function ProfilePage() {
         aria-label={profile.heading}
         className="identity-title mt-8 max-w-6xl font-display text-[clamp(2.75rem,10vw,9rem)] uppercase leading-[0.84] tracking-[0.02em]"
       >
-        ПИШУ КОД.
+        СОБИРАЮ ТРЕБОВАНИЯ.
         <br />
-        <span className="text-outline-strong">РАЗБИРАЮ СИСТЕМЫ.</span>
+        <span className="text-outline-strong">ОПИСЫВАЮ ПОВЕДЕНИЕ СИСТЕМЫ.</span>
       </h1>
       <div className="mt-16 grid max-w-6xl gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20">
         <p className="text-[clamp(1.5rem,4vw,3rem)] leading-[1.12] tracking-[0.01em]">
